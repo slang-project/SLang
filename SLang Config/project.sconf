@@ -1,0 +1,20 @@
+package CoreMinimal extend DefaultPackage, Version[0,0,1. "Alpha"] is
+	override const name         := "MiniCoreSlang"
+    override const author       := "Zakir&Konatov"
+    override const description  := "Minimalist version of Slang Core library"
+
+    // Here are list of units that should be available for internal packages 
+    // Generally obscene of Entrypoint means that this package is library
+    
+    override const export := List(
+        Bit.Bit,
+        BitScale.Bit,
+        Arrays.Array,
+        Boolean.Boolean,
+        Numeric.Numeric
+        Counter.Counter,
+        Integer.Integer,
+        Comparable.Comparable,
+        Enumeration.Enumeration,
+    )
+end

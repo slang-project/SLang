@@ -1,0 +1,491 @@
+%token USE
+%token AS
+%token IDENTIFIER
+%token UNIT
+%token IS
+%token END
+%token REF
+%token VAL
+%token CONCURRENT
+%token ABSTRACT
+%token EXTEND
+%token LEFT_BRACKET
+%token RIGHT_BRACKET
+%token SEPARATOR
+%token INVARIANT
+%token ARROW
+%token INIT
+%token LEFT_PARENTH
+%token RIGHT_PARENTH
+%token CONST
+%token COMMA
+%token COLON
+%token QUESTION
+%token ROUTINE
+%token PURE
+%token SAFE
+%token OVERRIDE
+%token ASSIGNMENT
+%token PLUS
+%token MINUS
+%token STAR
+%token SLASH
+%token STAR_STAR
+%token VERTICAL
+%token VERTICAL_VERTICAL
+%token AMPERSAND
+%token AMPERSAND_AMPERSAND
+%token CARET
+%token TILDE
+%token LESS
+%token LESS_EQUAL
+%token GREATER
+%token GREATER_EQUAL
+%token EQUAL
+%token EQUAL_EQUAL
+%token SLASH_EQUAL
+%token LESS_GREATER
+                 
+%token PLUS_PLUS
+%token MINUS_MINUS
+%token PLUS_EQUAL
+%token MINUS_EQUAL
+%token STAR_EQUAL
+%token REQUIRE
+%token THEN
+%token EXTERNAL
+%token ARROW2
+%token ENSURE
+%token ELSE
+%token NEW
+%token THIS
+%token RETURN
+%token SUPER
+%token OLD
+%token DOT
+%token ASSIGNMENT
+%token IF
+%token THEN
+%token ELSIF
+%token COLON
+%token COMMA
+%token DOT_DOT
+%token LOOP
+%token WHILE
+%token BREAK
+%token QUESTION
+%token CHECK
+%token RAISE
+%token TRY
+%token CATCH
+
+%start Compilation
+
+%%
+
+Compilation      : UseDirectiveSeq  CompilationUnitSeq
+                 ;
+
+UseDirectiveSeq  :                 UseDirective
+                 | UseDirectiveSeq UseDirective
+                 ;                
+
+UseDirective     : USE UsedUnitSeq
+                 ;
+                 
+UsedUnitSeq      :             UsedUnit
+                 | UsedUnitSeq UsedUnit
+                 ;
+                 
+UsedUnit         : CompoundName
+                 | CompoundName AS IDENTIFIER
+                 ;
+                
+CompilationUnitSeq
+                 :             CompilationUnit
+                 | Compilation CompilationUnit
+                 ;
+                
+CompilationUnit  : Declaration
+                 | Statement
+                 ;
+
+Declaration      : SimpleDeclaration
+                 | UnitDeclaration
+                 | RoutineDeclaration
+                 ;
+                 
+UnitDeclaratiuon : UnitSpecifierOpt
+                   UNIT CompoundName
+                        FormalGenericsOpt
+                        UnitDirectiveSeqOpt
+                   IS
+                        DeclarationSeqOpt
+                        InvariantOpt
+                   END
+                 ;
+                 
+UnitSpecifierOpt :  // empty
+                 | REF
+                 | VAL
+                 | CONCURRENT
+                 | ABSTRACT
+                 ;
+                 
+FormalGenericsOpt: // empty
+                 | FormalGenerics
+                 ;
+                 
+UnitDirectiveSeqOpt
+                 :  // empty
+                 | UnitDirectiveSeq
+                 ;
+                 
+UnitDirectiveSeq :                  UnitDirective
+                 | UnitDirectiveSeq UnitDirective
+                 ;
+                 
+UnitDirective    : InheritanceDirective
+                 | UseDirective
+                 ;
+                 
+InheritanceDirective
+                 : EXTEND BaseUnitSeq
+                 ;
+                 
+BaseUnitSeq      :             BaseUnit
+                 | BaseUnitSeq BaseUnit
+                 ;
+                 
+BaseUnit         :       UnitName
+                 | TILDE UnitName
+                 ;
+                 
+UnitName         : CompoundName
+                 | CompoundName LEFT_BLACKET GenericArgumentList RIGHT_BRACKET
+                 ;
+                 
+GenericArgumentList
+                 :                               GenericArgument
+                 | GenericArgumentList SEPARATOR GenericArgument
+                 ;
+                 
+GenericArgument  : Expression
+                 | UnitName
+                 ;
+                 
+DeclarationSeqOpt:  // empty 
+                 | DeclarationSeq
+                 ;
+                 
+DeclarationSeq   :                Declaration
+                 | DeclarationSeq Declaration
+                 ;
+                 
+InvariantOpt     : // empty
+                 | INVARIANT ExpressionList
+                 ;
+                 
+ExpressionList   :                          Expression
+                 | ExpressionList SEPARATOR Expression
+                 ;
+                 
+FormalGenerics   : LEFT_BLACKET GenericParameterList RIGHT_BRACKET
+                 ;
+
+GenericParameterList
+                 :                                GenericParameter
+                 | GenericParameterList SEPARATOR GenericParameter
+                 ;
+                 
+GenericParameter : SimpleDeclaration
+                 | UnitName
+                 | UnitName ARROW UnitName
+                 | UnitName ARROW UnitName INIT
+                 | UnitName ARROW UnitName INIT InitFormals
+                 ;
+                 
+InitFormals      : LEFT_PARENTH          RIGHT_PARENTH
+                 | LEFT_PARENTH TypeList RIGHT_PARENTH
+                 ;
+                 
+TypeList         :                    Type
+                 | TypeList SEPARATOR Type
+                 ;
+
+SimpleDeclaration: ConstOpt IdentifierList TypeSpecifierOpt InitializationOpt
+                 ;
+
+ConstOpt         : // empty
+                 | CONST
+                 ;
+                 
+IdentifierList   :                      IDENTIFIER
+                 | IdentifierList COMMA IDENTIFIER
+                 ;
+                 
+TypeSpecifierOpt :  // empty
+                 | COLON            Type
+                 | COLON QUESTION   Type
+                 | COLON REF        Type
+                 | COLON VAL        Type
+                 | COLON CONCURRENT Type
+                 | AS CompoundName
+                 ;
+                 
+InitializationOpt: // empty
+                 | IS Expression
+                 ;
+                 
+Type             : UnitName
+                 | TupleType
+                 | RoutineType
+                 ;
+                 
+TupleType        : LEFT_PARENTH                      RIGHT_PARENTH
+                 | LEFT_PARENTH TupleTypeElementList RIGHT_PARENTH
+                 ;
+
+TupleTypeElementList
+                 :                                TupleTypeElement
+                 | TupleTypeElementList SEPARATOR TupleTypeElement
+                 ;
+                 
+TupleTypeElement :                  Type
+                 | IDENTIFIER COLON Type
+                 ;
+
+RoutineType      : ROUTINE
+                 | ROUTINE FormalParameters
+                 | ROUTINE FormalParameters COLON Type
+                 | ROUTINE                  COLON Type
+                 ;
+                 
+FormalParameters : LEFT_PARENTH                     RIGHT_PARENTH
+                 | LEFT_PARENTH FormalParameterList RIGHT_PARENTH
+                 ;
+                 
+FormalParameterList
+                 :                               FormalParameter
+                 | FormalParameterList SEPARATOR FormalParameter
+                 ;
+                 
+FormalParameter  : SimpleDeclaration
+                 ;
+                 
+RoutineDeclaration
+                 : RoutineSpecifierOpt OverrideOpt 
+                   RoutineName
+                   FormalGenericsOpt
+                   FormalParametersOpt
+                   ResultOpt
+                   UseDirectiveOpt
+                   PreconditionOpt
+                   RoutineBody
+                 ;
+                 
+RoutineSpecifierOpt
+                 : // empty
+                 | PURE
+                 | SAFE
+                 ;
+                 
+OverrideOpt      : // empty
+                 | OVERRIDE
+                 ;
+                 
+RoutineName      : IDENTIFIER
+                 | Operator
+                 | ASSIGNMENT
+                 | INIT
+                 ;
+
+Operator         : PLUS
+                 | MINUS
+                 | STAR
+                 | SLASH
+                 | STAR_STAR
+                 | VERTICAL
+                 | VERTICAL_VERTICAL
+                 | AMPERSAND
+                 | AMPERSAND_AMPERSAND
+                 | CARET
+                 | TILDE
+                 | LESS
+                 | LESS_EQUAL
+                 | GREATER
+                 | GREATER_EQUAL
+                 | EQUAL
+                 | EQUAL_EQUAL
+                 | SLASH_EQUAL
+                 | LESS_GREATER
+                 
+                 | PLUS_PLUS
+                 | MINUS_MINUS
+                 | PLUS_EQUAL
+                 | MINUS_EQUAL
+                 | STAR_EQUAL
+                 | SLASH_EQUAL  // ???
+                 ;
+                 
+FormalParametersOpt
+                 : // empty
+                 | FormalParameters
+                 ;
+                 
+ResultOpt        : // empty
+                 | COLON Type
+                 ;
+                 
+PreconditionOpt  : // empty
+                 | REQUIRE      ExpressionList
+                 | REQUIRE THEN ExpressionList
+                 ;
+                 
+RoutineBody      : IS DeclarationStatementSeq PostconditionOpt END
+                 | IS ABSTRACT
+                 | IS EXTERNAL
+                 | ARROW2 Expression
+                 ;
+                 
+DeclarationStatementSeq
+                 :                                   Declaration
+                 |                                   Statement
+                 | DeclarationStatementSeq SEPARATOR Declaration
+                 | DeclarationStatementSeq SEPARATOR Statement
+                 ;
+                 
+PostconditionOpt : // empty
+                 | ENSURE      ExpressionList
+                 | ENSURE ELSE ExpressionList
+                 ;
+                 
+Expression       : Operand
+                 | Operand BinaryOperator Operand
+                 ;
+
+BinaryOperator   : PLUS
+                 | MINUS
+                 | STAR
+                 | SLASH
+                 | STAR_STAR
+                 // ...
+                 ;
+                 
+Operand          :               Primary
+                 | UnaryOperator Primary
+                 ;
+
+UnaryOperator    : PLUS
+                 | MINUS
+                 | TILDE
+                 | NEW
+                 ;
+                 
+Primary          : IDENTIFIER
+                 | THIS
+                 | RETURN
+             //  | SUPER
+                 | OLD Primary
+                 | Primary Tuple          // FunctionCallTail
+                 | Primary DOT IDENTIFIER // SelectorTail
+                 | Tuple
+                 ;
+                 
+Tuple            : LEFT_PARENTH ExpressionList RIGHT_PARENTH
+                 ;
+                 
+Statement        : Assignment
+                 | IfCase
+                 | Loop
+                 | Break
+                 | ValueLost
+                 | Check
+                 | Return
+                 | Try
+                 | Raise
+                 ;
+                 
+Assignment       : Primary ASSIGNMENT Expression
+                 ;
+                 
+IfCase           : IF Expression THEN StatementSeq ElseIfSeqOpt    ElseOpt END
+                 | IF Expression IS AlternativeSeq ElseIfAltSeqOpt ElseOpt END
+                 ;
+
+ElseIfSeqOpt     : // empty
+                 | ElseIfSeq
+                 ;
+                 
+ElseIfSeq        ;           ElseIf
+                 | ElseIfSeq ElseIf
+                 ;
+
+ElseIf           : ELSIF Expression THEN StatementSeq
+                 ;
+                 
+ElseOpt          : // empty
+                 | ELSE StatementSeq
+                 ;
+                 
+AlternativeSeq   :                Alternative
+                 | AlternativeSeq Alternative
+                 ;
+
+Alternative      : ValueOrRangeList COLON StatementSeq
+
+ValueOrRangeList :                        ValueOrRange
+                 | ValueOrRangeList COMMA ValueOrRange
+                 ;
+
+ValueOrRange     : Expression
+                 | Expression DOT_DOT Expression
+                 ;
+                 
+ElseIfAltSeqOpt  : // empty
+                 | ElseIfAltSeq
+                 ;
+                 
+ElseIfAltSeq     : ElseIfAlt
+                 | ElseIfAltSeq Else
+
+Loop             : LabelOpt                  LOOP StatementSeq                  InvariantOpt END
+                 | LabelOpt WHILE Expression LOOP StatementSeq                  InvariantOpt END
+                 | LabelOpt                  LOOP StatementSeq WHILE Expression InvariantOpt END
+                 ;
+                 
+LabelOpt         : // empty
+                 | IDENTIFIER COLON
+                 ;
+                 
+Break            : BREAK
+                 | BREAK IDENTIFIER
+                 ;
+                 
+ValueLost        : QUESTION Primary
+                 ;
+                 
+Check            : CHECK ExpressionList END
+                 ;
+                 
+Return           : RETURN
+                 | RETURN Expression
+                 ;
+                 
+Raise            : RAISE
+                 | RAISE Expression
+                 ;
+                 
+Try              : TRY StatementSeq CatchHandlerSeq ElseOpt END
+                 ;
+                 
+CatchHandlerSeq  :                 CatchHandler
+                 | CatchHandlerSeq CatchHandler
+                 ;
+                 
+CatchHandler     : CATCH LEFT_PARENTH                  Type RIGHT_PARENTH StatementSeq
+                 | CATCH LEFT_PARENTH IDENTIFIER COLON Type RIGHT_PARENTH StatementSeq
+                 ;
+                 
+%%
+

@@ -1,0 +1,14 @@
+// This is small minimalistic package for test purpose
+// files a.slang and b.slang conrains just simple variables (b requires a)
+// file c.slang contain entrypoint routine that requires unit A and unit B
+// Be default all slang files should be placed on same level of sconf file or below
+
+
+package HelloWorld extend DefaultPackage, Version[0,0,1, "Alpha"] is
+    override const author       := "Semyon"
+    override const description  := "Test Package"
+
+    override const export := List(
+        Entrypoint(C.main)
+    )
+end
