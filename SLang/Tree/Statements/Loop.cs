@@ -200,7 +200,7 @@ namespace SLang
                 }
             }
             else // Compiler error
-                error(token,"internal-error");
+                error(token,"system-bug");
 
             token = get();
             if ( token.code != TokenCode.End ) // Syntax error

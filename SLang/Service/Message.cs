@@ -79,11 +79,11 @@ namespace SLang
             message(position,"error",title,args);
             numErrors++;
 
-            if ( numErrors >= options.optMaxErrors )
-            {
-                info("max-errs",options.optMaxErrors);
-                throw new TerminateSLangCompiler(position);
-            }
+         // if ( numErrors >= options.optMaxErrors )
+         // {
+         //     info("max-errs",options.optMaxErrors);
+         //     throw new TerminateSLangCompiler(position);
+         // }
         }
 
         public void info(string title, params object[] args)

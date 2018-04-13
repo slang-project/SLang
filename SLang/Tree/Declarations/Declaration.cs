@@ -335,8 +335,8 @@ namespace SLang
                 }
                 else
                 {
-                    // Cannot happen.
-                    error(afterId, "internal error");
+                    // Syntax error
+                    error(afterId, "syntax-error","declaration");
                 }
             }
             // Here, we have parsed the list of identifiers.

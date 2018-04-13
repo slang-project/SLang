@@ -26,14 +26,14 @@ namespace SLangCompiler
             Options options = new Options(opts);
             // Opening message pool
             Message messagePool = new Message(options);
-            
-            // Output compiler title & version
-            if ( options.optPrintVersion )
-                messagePool.info("compiler-title","0.0.0.1 prototype");
 
             // Setting call/exit tracing mode
             if ( options.optDebug )
                 Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
+            
+            // Output compiler title & version
+            if ( options.optPrintVersion )
+                messagePool.info("compiler-title","0.0.0.1 prototype");
 
             // Opening the source file
             if ( fileName == "" )
@@ -67,7 +67,8 @@ namespace SLangCompiler
             }
             catch ( TerminateSLangCompiler exc )
             {
-                messagePool.error(exc.position,"system-bug");
+                Position pos = (exc == null) ? null : exc.position;
+                messagePool.error(pos,"system-bug");
             }
 
             if ( !options.optGenerate ) goto Finish;

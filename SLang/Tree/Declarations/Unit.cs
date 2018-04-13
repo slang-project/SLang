@@ -218,6 +218,11 @@ namespace SLang
                     code = TokenCode.Unit;
                     forget();
                     break;
+
+                case TokenCode.Package:
+                    code = TokenCode.Package;
+                    forget();
+                    break;
             }
 
             // 1. Unit header

@@ -875,7 +875,32 @@ namespace SLang
 
         public static BREAK parse ( iSCOPE context )
         {
-            return null;
+            Debug.Indent();
+            Debug.WriteLine("Entering BREAK.parse");
+
+            BREAK break_stmt;
+
+            forget();
+            Token token = get();
+            Token start = token;
+            if ( token.code == TokenCode.Identifier )
+            {
+                // This might be a label
+                forget();
+                break_stmt = new BREAK(token.image);
+            }
+            else
+                break_stmt = new BREAK(null);
+
+            context.add(break_stmt);
+
+            break_stmt.parent = context.self;
+            break_stmt.setSpan(start,token);
+
+            Debug.WriteLine("Exiting BREAK.parse");
+            Debug.Unindent();
+
+            return break_stmt;
         }
 
         #endregion

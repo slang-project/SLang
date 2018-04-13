@@ -9,7 +9,10 @@ namespace SLang
 
         public TerminateSLangCompiler ( Token theLast )
         {
-            this.position = theLast.span.begin;
+            if (theLast == null)
+                this.position = null;
+            else
+                this.position = theLast.span.begin;
         }
         public TerminateSLangCompiler ( Position pos )
         {

@@ -237,7 +237,7 @@ namespace SLang
                     category.setDelimiter();
                     return new Token(new Span(start),code,image,category);
                 OneCharOperator:
-                    reader.forgetChar();
+                 // reader.forgetChar();
                     image = "" + curr;
                     category.setOperator();
                     return new Token(new Span(start),code,image,category);

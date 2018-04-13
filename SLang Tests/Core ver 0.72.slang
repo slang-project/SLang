@@ -933,7 +933,7 @@ unit StandardIO is
 //				putString (argument.ToString)
 //			end
 		end
-	end put
+	end // put
 	hidden putInteger (anInteger: Integer) is foreign
 	hidden putCharacter (aCharacter: Character) is foreign
 	hidden putString (aString: String) is foreign

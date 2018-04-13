@@ -1488,6 +1488,7 @@ namespace SLang
         public static new EXPRESSION parse(Token first, iSCOPE context)
         {
             EXPRESSION result = RELATIONAL.parse(first, context);
+            if (result == null) return null;
             Span begin = result.span;
 
             while (true)
