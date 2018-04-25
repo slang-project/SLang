@@ -71,6 +71,9 @@ namespace SLang
 
         public IDENTIFIER alias { get; private set; }
 
+        public bool foreign { get; private set; }
+        public void setForeign() { foreign = true; }
+
         /// <summary>
         /// 
         /// </summary>
@@ -172,13 +175,12 @@ namespace SLang
         ///         : { Объявление }
         /// </syntax>
         /// <returns></returns>
-        public static void parse(bool hidden, bool final, iSCOPE context)
+        public static void parse(bool hidden, bool final, bool abstr, iSCOPE context)
         {
             Debug.Indent();
             Debug.WriteLine("Entering UNIT.parse");
 
             bool ref_val = false;     // unit is reference by default
-            bool abstr = false;
             bool concurrent = false;
 
             UNIT unit = null;
@@ -327,6 +329,14 @@ namespace SLang
 
             // 6. Unit body
 
+            token = get();
+            if ( token.code == TokenCode.Foreign )
+            {
+                // "Foreign" unit
+                forget();
+                unit.setForeign();
+            }
+
             while ( true )
             {
                 bool result = DECLARATION.parse(unit);
@@ -377,7 +387,7 @@ namespace SLang
             token = expect(TokenCode.End);
             Context.exit();
 
-            unit.setSpan(begin, token);
+            unit.setSpan(begin,(token!=null)?token:begin);
             context.add(unit);
 
             Debug.WriteLine("Exiting UNIT.parse");
@@ -430,6 +440,7 @@ namespace SLang
         {
             string common = commonAttrs();
             string a =  Concurrent ? "CONCURRENT " : (Abstract ? "ABSTRACT " : ( RefVal ? "REF " : "VAL "));
+            a += foreign ? "FOREIGN " : "";
             string r = common + shift(sh) + a + (isGeneric() ? "GENERIC " : "") + title + " " + name.identifier;
             if ( alias != null ) r += " ALIAS " + alias.identifier;
             System.Console.WriteLine(r);
@@ -450,8 +461,11 @@ namespace SLang
                 foreach (USE u in uses) u.report(sh + constant);
             }
 
-            System.Console.WriteLine(shift(common.Length+sh)+"MEMBERS");
-            foreach (DECLARATION d in declarations) d.report(sh + constant);
+            if ( declarations.Count > 0 )
+            {
+                System.Console.WriteLine(shift(common.Length+sh)+"MEMBERS");
+                foreach (DECLARATION d in declarations) d.report(sh + constant);
+            }
             
             if ( invariants.Count > 0 )
             {

@@ -167,7 +167,7 @@ namespace SLang
                     EXPRESSION attempt = EXPRESSION.parse(null,context);
                     if ( attempt is UNRESOLVED )
                     {
-                        // Might be a label of a declaration...
+                        // Might be a label or a declaration...
                         Token idd = new Token(attempt.span, TokenCode.Identifier,
                                               (attempt as UNRESOLVED).name.identifier,
                                               new Category(CategoryCode.identifier));
@@ -179,7 +179,7 @@ namespace SLang
                                 // This is definitely a declaration
                                 forget();
                                 VARIABLE.parse(false,false,false,false,idd,token,context);
-                                break;
+                                goto Weiter;
                             case TokenCode.Colon :
                                 forget();
                                 Token token2 = get();
@@ -190,7 +190,7 @@ namespace SLang
                                     // This is definitely a variable declaration.
                                     // Don't forget()
                                     VARIABLE.parse(false,false,false,false,idd,token,context);
-                                break;
+                                goto Weiter;
                             default:
                                 // Nothing to do; just going further
                                 break;
@@ -212,6 +212,7 @@ namespace SLang
                             result = false;
                         context.add(attempt);
                     }
+                 Weiter:
                     break;
                 }
                 case TokenCode.Const:

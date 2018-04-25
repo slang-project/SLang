@@ -62,9 +62,9 @@ namespace SLang
             //  case '{': code = TokenCode.LBrace;    category.setDelimiter(); goto OneCharToken;
             //  case '}': code = TokenCode.RBrace;    category.setDelimiter(); goto OneCharToken;
                 case '~': code = TokenCode.Tilde;     category.setDelimiter(); goto OneCharToken;
-                case '+': code = TokenCode.Plus;      category.setOperator();  goto OneCharOperator;
-                case '^': code = TokenCode.Caret;     category.setOperator();  goto OneCharOperator;
-                case '\\':code = TokenCode.Remainder; category.setOperator();  goto OneCharOperator;
+                case '+': code = TokenCode.Plus;      category.setOperator();  reader.forgetChar(); goto OneCharOperator;
+                case '^': code = TokenCode.Caret;     category.setOperator();  reader.forgetChar(); goto OneCharOperator;
+                case '\\': code = TokenCode.Remainder; category.setOperator(); reader.forgetChar(); goto OneCharOperator;
                 case '?': code = TokenCode.Question;  category.setDelimiter(); goto OneCharToken;
                 OneCharToken:
                     reader.forgetChar();

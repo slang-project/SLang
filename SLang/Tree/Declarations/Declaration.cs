@@ -51,6 +51,7 @@ namespace SLang
             int pure_safe = 0;
             bool isOverride = false;
             bool isRoutine = false;
+            bool isAbstract = false;
 
             Token token = get();
             Token begin = token;
@@ -60,6 +61,7 @@ namespace SLang
             {
                 switch ( token.code )
                 {
+                    case TokenCode.Abstract: isAbstract = true;                   forget(); break;
                     case TokenCode.Override: isOverride = true;                   forget(); break;
                     case TokenCode.Hidden  : isHidden   = true;                   forget(); break;
                     case TokenCode.Final   : isFinal    = true; isRoutine = true; forget(); break;
@@ -79,7 +81,7 @@ namespace SLang
                         // Illegal specifier for unit declaration
                         error(token,"illegal-spec",begin,"unit declaration");
 
-                    UNIT.parse(isHidden,isFinal,context);
+                    UNIT.parse(isHidden,isFinal,isAbstract,context);
                     break;
 
                 case TokenCode.Const:

@@ -106,10 +106,13 @@ namespace SLang
                             case TokenCode.Package:
                             case TokenCode.Ref:
                             case TokenCode.Val:
-                            case TokenCode.Abstract:
                             case TokenCode.Concurrent:
                                 // Don't forget()
-                                UNIT.parse(false,true,compilation);
+                                UNIT.parse(false,true,false,compilation);
+                                break;
+                            case TokenCode.Abstract:
+                                forget();
+                                UNIT.parse(false,true,true,compilation);
                                 break;
                             case TokenCode.Safe:
                             case TokenCode.Pure:
@@ -128,11 +131,15 @@ namespace SLang
 
                     case TokenCode.Ref:
                     case TokenCode.Val:
-                    case TokenCode.Abstract:
                     case TokenCode.Concurrent:
                     case TokenCode.Unit:
                     case TokenCode.Package:
-                        UNIT.parse(false,false,compilation);
+                        UNIT.parse(false,false,false,compilation);
+                        break;
+
+                    case TokenCode.Abstract:
+                        forget();
+                        UNIT.parse(false,false,true,compilation);
                         break;
 
                     case TokenCode.Use:
@@ -160,9 +167,16 @@ namespace SLang
                         break;
 
                     default:
-                        // A call/assignment statement
+                        // A call/assignment statement, or an error
                         if ( startAnon == null ) startAnon = get();
-                        STATEMENT.parse(compilation.anonymous.routineBody,TokenCode.EOS,TokenCode.ERROR,TokenCode.ERROR);
+                        bool result = STATEMENT.parse(compilation.anonymous.routineBody,
+                                                      TokenCode.EOS,TokenCode.ERROR,TokenCode.ERROR);
+                        if ( !result )
+                        {
+                            // There was not a statement:
+                            // apparently, this is a syntax error
+                            goto Finish;
+                        }
                         endAnon = get();
                         break;
                 }
@@ -170,7 +184,7 @@ namespace SLang
           Finish:
 
             compilation.setSpan(start,get());
-            if ( startAnon != null )
+            if ( startAnon != null && endAnon != null )
                 compilation.anonymous.setSpan(startAnon,endAnon);
 
             Debug.WriteLine("Exiting COMPILATION.parse");
