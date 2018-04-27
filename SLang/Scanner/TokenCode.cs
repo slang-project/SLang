@@ -61,6 +61,12 @@ namespace SLang
         Remainder,    //  \
      // Call,         //  ()
 
+        PlusEqual,    //  +=
+        MinusEqual,   //  -=
+        PlusPlus,     //  ++
+        MinusMinus,   //  --
+        MultEqual,    //  *=
+
         Abstract,
         Alias,
    //   And,

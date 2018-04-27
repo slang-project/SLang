@@ -181,8 +181,7 @@ namespace SLang
                         break;
                 }
             }
-          Finish:
-
+         Finish:
             compilation.setSpan(start,get());
             if ( startAnon != null && endAnon != null )
                 compilation.anonymous.setSpan(startAnon,endAnon);

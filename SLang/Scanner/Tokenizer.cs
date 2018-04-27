@@ -62,7 +62,6 @@ namespace SLang
             //  case '{': code = TokenCode.LBrace;    category.setDelimiter(); goto OneCharToken;
             //  case '}': code = TokenCode.RBrace;    category.setDelimiter(); goto OneCharToken;
                 case '~': code = TokenCode.Tilde;     category.setDelimiter(); goto OneCharToken;
-                case '+': code = TokenCode.Plus;      category.setOperator();  reader.forgetChar(); goto OneCharOperator;
                 case '^': code = TokenCode.Caret;     category.setOperator();  reader.forgetChar(); goto OneCharOperator;
                 case '\\': code = TokenCode.Remainder; category.setOperator(); reader.forgetChar(); goto OneCharOperator;
                 case '?': code = TokenCode.Question;  category.setDelimiter(); goto OneCharToken;
@@ -70,6 +69,22 @@ namespace SLang
                     reader.forgetChar();
                     image = "" + curr;
                     return new Token(new Span(start),code,image,category);
+
+                case '+': //  +, ++, +=
+                    reader.forgetChar();
+                    ch = reader.getChar();
+                    switch ( ch )
+                    {
+                        case '+':
+                            reader.forgetChar(); code = TokenCode.PlusPlus; image = "++";
+                            goto TwoCharOperator;
+                        case '=':
+                            reader.forgetChar(); code = TokenCode.PlusEqual; image = "+=";
+                            goto TwoCharOperator;
+                        default :
+                            code = TokenCode.Plus; image = "+"; category.setOperator();
+                            goto OneCharOperator;
+                    }
 
                 case '&': // &, &&
                     reader.forgetChar();
@@ -97,17 +112,19 @@ namespace SLang
                         code = TokenCode.Vertical; image = "|"; goto OneCharOperator;
                     }
 
-                case '*': // *, **
+                case '*': // *, **, *=
                     reader.forgetChar();
                     ch = reader.getChar();
-                    if ( ch == '*' )
+                    switch ( ch )
                     {
-                        reader.forgetChar();
-                        code = TokenCode.Power; image = "**"; goto TwoCharOperator;
-                    }
-                    else
-                    {
-                        code = TokenCode.Multiply; image = "*"; goto OneCharOperator;
+                        case '*' :
+                            reader.forgetChar();
+                            code = TokenCode.Power; image = "**"; goto TwoCharOperator;
+                        case '=' :
+                            reader.forgetChar();
+                            code =TokenCode.MultEqual; image ="*="; goto TwoCharOperator;
+                        default :
+                            code = TokenCode.Multiply; image = "*"; goto OneCharOperator;
                     }
                 case ':':   //  :, :=
                     reader.forgetChar();
@@ -152,17 +169,22 @@ namespace SLang
                             code = TokenCode.Equal; image = "="; goto OneCharOperator;
                     }
 
-                case '-': // -, ->
+                case '-': // -, ->, -=, --
                     reader.forgetChar();
                     ch = reader.getChar();
-                    if ( ch == '>' )
+                    switch ( ch )
                     {
-                        reader.forgetChar();
-                        code = TokenCode.Arrow2; image = "->"; goto TwoCharDelimiter;
-                    }
-                    else
-                    {
-                        code = TokenCode.Minus; image = "-"; goto OneCharDelimiter;
+                        case '>' :
+                            reader.forgetChar(); code = TokenCode.Arrow2; image = "->";
+                            goto TwoCharDelimiter;
+                        case '=' :
+                            reader.forgetChar(); code = TokenCode.MinusEqual; image = "-=";
+                            goto TwoCharOperator;
+                        case '-' :
+                            reader.forgetChar(); code = TokenCode.MinusMinus; image = "--";
+                            goto TwoCharOperator;
+                        default :
+                            code = TokenCode.Minus; image = "-"; goto OneCharOperator;
                     }
 
                 case '/':   //   /, /=, /==, /*, //
