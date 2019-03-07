@@ -11,9 +11,9 @@ namespace SLangTester
         static void Main(string[] args)
         {
             Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
-            Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\T012.slang");
+            Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\T011.slang");
         //  Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Config Min\Version.slang");
-        //  Reader reader = new Reader((Message)null, @"c:\Zouev\SLang\SLang Tests\Core ver 0.72.slang");
+        //  Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\Core ver 0.72.slang");
         //  Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\Core ver 0.6.2.slang");
         //  Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\Core ver 0.7 Updated.slang");
         //  Reader reader = new Reader((Message)null,@"c:\Zouev\SLang\SLang Tests\Comparable.slang");

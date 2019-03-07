@@ -164,7 +164,24 @@ namespace SLang
                     //   - a declaration
                     //   - a statement
 
-                    EXPRESSION attempt = EXPRESSION.parse(null,context);
+                    forget();
+                    Token next = get();
+                    if ( next.code == TokenCode.LParen )
+                    {
+                        forget();
+                        TokenCode codeAfter = saveTokensUntilRightParenth(next);
+                        switch ( codeAfter )
+                        {
+                            case TokenCode.Colon:
+                            case TokenCode.Is:
+                         // case TokenCode.Do:
+                            case TokenCode.Arrow:
+                                //This as a routine declaration!!
+                                ROUTINE.parse(token, false, false, false, 0, context);
+                                goto Weiter;
+                        }
+                    }
+                    EXPRESSION attempt = EXPRESSION.parse(token,context);
                     if ( attempt is UNRESOLVED )
                     {
                         // Might be a label or a declaration...
@@ -270,7 +287,7 @@ namespace SLang
 
     /// <summary>
     /// The class represents sequences of language constructs
-    /// that can be bodies of routines, loop bodies, tren- and else-parts
+    /// that can be bodies of routines, loop bodies, then- and else-parts
     /// of if statements etc.
     /// </summary>
     public class BODY : STATEMENT, iSCOPE

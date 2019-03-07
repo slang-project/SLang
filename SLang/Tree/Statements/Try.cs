@@ -66,6 +66,7 @@ namespace SLang
         public void add(ENTITY d) { body.Add(d); }
         public ENTITY self { get { return this; } }
 
+        public void show(int sh) { }
 
         #endregion
 

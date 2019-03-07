@@ -60,7 +60,44 @@ namespace SLang
 
         #region Technical stuff
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static bool weAreWithinEnsure;
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        private static Queue<Token> buffer = new Queue<Token>();
+
+        public static TokenCode saveTokensUntilRightParenth(Token left)
+        {
+            int balance = 1;
+            buffer.Enqueue(left);
+            
+            Token token;
+            while ( true )
+            {
+                token = get(anyway:true);
+                buffer.Enqueue(token);
+                forget();
+                if (token.code == TokenCode.LParen)
+                {
+                    balance++;
+                }
+                else if (token.code == TokenCode.RParen)
+                {
+                    balance--;
+                    if ( balance == 0 ) break;
+                }
+             // else
+             //     -- Consider error case: EOS
+            }
+            token = get(anyway:true);
+            forget();
+            buffer.Enqueue(token);
+            return token.code;
+        }
 
         #endregion
 
@@ -71,14 +108,18 @@ namespace SLang
 
         public static bool wasEOL { get; private set; }
 
-        public static Token get()
+        public static Token get(bool anyway=false)
         {
             if ( current == null )
             {
                 wasEOL = false;
                 while ( true )
-                { 
-                    current = scanner.getNextToken();
+                {
+                    if ( buffer.Count == 0 || anyway )
+                        current = scanner.getNextToken();
+                    else
+                        current = buffer.Dequeue();
+
                     switch ( current.code )
                     {
                         case TokenCode.EOL: wasEOL = true; continue;

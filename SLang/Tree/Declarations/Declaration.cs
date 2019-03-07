@@ -369,7 +369,8 @@ namespace SLang
                 }
                 else
                 {
-                    initializer = EXPRESSION.parse(null,context);
+                    forget();
+                    initializer = EXPRESSION.parse(token,context);
                     if ( type == null )
                     {
                         // Type inference

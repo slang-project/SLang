@@ -69,6 +69,15 @@ namespace SLang
             return null;
         }
 
+        public void show(int sh)
+        {
+            string indentation = "";
+            for (int i=1; i<=sh; i++) indentation += " ";
+            System.Console.WriteLine("{0}{1}",indentation,"COMPILATION");
+            foreach(DECLARATION d in units_and_standalones)
+                System.Console.WriteLine("    {0}{1}",indentation,d.name.identifier);
+        }
+
         #endregion
 
         #region Parser

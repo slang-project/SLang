@@ -6,27 +6,6 @@ namespace SLang
 {
     public class ROUTINE : DECLARATION, iSCOPE
     {
-        #region iSCOPE implementation
-
-        public ENTITY self { get { return this; } }
-
-        public void add(ENTITY d) { parameters.Add(d /*as DECLARATION*/); }
-
-        public DECLARATION find_in_scope ( string id )
-        {
-            foreach(ENTITY d in parameters)
-            {
-                if ( !(d is DECLARATION) ) continue;
-                DECLARATION dd = d as DECLARATION;
-                if ( dd.name.identifier == id ) return dd;
-            }
-            foreach(FORMAL_GENERIC g in genericParameters)
-                if ( g.name.identifier == id ) return g;
-            return null;
-        }
-
-        #endregion
-
         #region Structure
 
      // public IDENTIFIER name -- from the base class
@@ -41,7 +20,7 @@ namespace SLang
         /// </summary>
         private int PureSafe;
         public bool isPure { get { return PureSafe == 1; } }
-        public bool isSafe {  get { return PureSafe == 2; } }
+        public bool isSafe { get { return PureSafe == 2; } }
 
         public bool isAbstract { get; private set; }
 
@@ -67,7 +46,7 @@ namespace SLang
         /// 
         /// </summary>
         public List<ENTITY> parameters { get; private set; }
-     // public void add(DECLARATION p) { parameters.Add(p); } -- see iSCOPE interface above
+        // public void add(DECLARATION p) { parameters.Add(p); } -- see iSCOPE interface above
 
         /// <summary>
         /// 
@@ -89,6 +68,39 @@ namespace SLang
         /// 
         /// </summary>
         public BODY routineBody;
+
+        #endregion
+
+        #region iSCOPE implementation
+
+        public ENTITY self { get { return this; } }
+
+        public void add(ENTITY d) { parameters.Add(d /*as DECLARATION*/); }
+
+        public DECLARATION find_in_scope ( string id )
+        {
+            foreach(ENTITY d in parameters)
+            {
+                if ( !(d is DECLARATION) ) continue;
+                DECLARATION dd = d as DECLARATION;
+                if ( dd.name.identifier == id ) return dd;
+            }
+            foreach(FORMAL_GENERIC g in genericParameters)
+                if ( g.name.identifier == id ) return g;
+            return null;
+        }
+
+    //  public void show(int sh)
+    //  {
+    //      string indentation = shift(sh);
+    //      System.Console.WriteLine("{0}ROUTINE {1}",indentation,name.identifier);
+    //      foreach ( FORMAL_GENERIC g in genericParameters )
+    //          System.Console.WriteLine("    {0}{1}",indentation,g.name.identifier);
+    //      foreach (ENTITY p in parameters)
+    //          if ( p is VARIABLE )
+    //             System.Console.WriteLine("    {0}{1}", indentation, (p as VARIABLE).name.identifier);
+    //   // routineBody.show(sh+4); -- not necessary
+    //  }
 
         #endregion
 

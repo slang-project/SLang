@@ -158,7 +158,7 @@ namespace SLang
                     break;
 
                 case TokenCode.Identifier:
-                    forget();
+                    if ( first == null ) forget(); ////// perhaps the same condition should be added for all cases?
                     DECLARATION d = Context.find(token);
                     if ( d == null )
                         result = new UNRESOLVED(context, new IDENTIFIER(token));

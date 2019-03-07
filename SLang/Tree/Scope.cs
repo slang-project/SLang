@@ -32,9 +32,14 @@ namespace SLang
 
         #endregion
 
+        #region Output
+
+
+        #endregion
+
         #region Entering and exiting scopes
 
-     // public static iSCOPE currentScope { get; private set; }
+        // public static iSCOPE currentScope { get; private set; }
         
         public static void enter(iSCOPE scope)
         {
