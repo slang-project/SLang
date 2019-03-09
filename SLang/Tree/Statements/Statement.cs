@@ -391,6 +391,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -401,15 +403,6 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        #region Reporting
-
-        public override void report(int sh)
-        {
-            System.Console.WriteLine(commonAttrs() + shift(sh) + "BODY");
-            foreach (ENTITY entity in body)
-                entity.report(sh+constant);
-        }
-
         #endregion
 
         #region Generation
@@ -417,6 +410,22 @@ namespace SLang
         public override bool generate()
         {
             throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            System.Console.WriteLine(commonAttrs() + shift(sh) + "BODY");
+            foreach (ENTITY entity in body)
+                entity.report(sh+constant);
         }
 
         #endregion
@@ -451,6 +460,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -459,6 +470,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -482,15 +509,6 @@ namespace SLang
             thenPart.report(sh+constant);
 
             return common.Length;
-        }
-
-        #endregion
-
-        #region Generation
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -603,12 +621,21 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
 
         #region Generation
 
         public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -731,6 +758,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -794,6 +826,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -837,6 +874,11 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -941,6 +983,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -982,6 +1029,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -990,6 +1039,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -1004,15 +1069,6 @@ namespace SLang
 
             System.Console.WriteLine(shift(common.Length+sh) + "RIGHT");
             right.report(sh + constant);
-        }
-
-        #endregion
-
-        #region Generation
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

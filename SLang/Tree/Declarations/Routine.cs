@@ -433,6 +433,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting

@@ -131,6 +131,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -173,6 +178,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -181,6 +188,20 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         #region Reporting
 
         public override void report(int sh)
@@ -196,11 +217,6 @@ namespace SLang
         }
 
         #endregion
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>
@@ -401,6 +417,11 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -621,6 +642,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -645,6 +671,8 @@ namespace SLang
 
     public class ROUTINE_TYPE : TYPE
     {
+        #region Parser
+
         new public static ROUTINE_TYPE parse(iSCOPE context)
         {
             Debug.Indent();
@@ -657,9 +685,30 @@ namespace SLang
             return null;
         }
 
+        #endregion
+
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
         public override void report(int sh) { }
+
+        #endregion
     }
 }

@@ -476,6 +476,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -583,10 +588,21 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
         public override bool generate()
         {
             throw new NotImplementedException();
         }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
 
         public override void report(int sh)
         {
@@ -606,5 +622,7 @@ namespace SLang
                     c.report(sh+constant);
             }
         }
+
+        #endregion
     }
 }

@@ -54,7 +54,7 @@ namespace SLang
 
         public abstract bool generate();
 
-     // public abstract string ToJSON();
+        public abstract string ToJSON();
 
         #endregion
 
@@ -265,9 +265,24 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate() { return true; }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
         public override void report(int sh) { }
     }
 }

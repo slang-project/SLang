@@ -51,12 +51,12 @@ namespace SLangCompiler
             // Phase 1: parsing
             // ================
 
+            COMPILATION compilation = null;
             try
             {
                 try
                 {
-                    COMPILATION compilation = COMPILATION.parse();
-
+                    compilation = COMPILATION.parse();
                     if ( options.optDumpAST )
                         compilation.report(4);
                 }
@@ -73,14 +73,15 @@ namespace SLangCompiler
 
             if ( !options.optGenerate ) goto Finish;
 
-            // Phase 2: conversion AST to JSON
+            // Phase 2: code generation
             // ===============================
 
-            /////// Conversion to JSON should be here!!
+            // TODO: code generation call
 
             if ( options.optDumpJSON )
             {
-                /////// JSON dump should be here!!
+                string json = compilation.ToJSON();
+                Console.Out.WriteLine(json);  // TODO: write to file
             }
 
         Finish:

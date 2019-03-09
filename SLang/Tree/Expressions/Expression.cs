@@ -203,6 +203,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -211,14 +213,31 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
-        public override void report(int sh)
-        {
-            throw new NotImplementedException();
-        }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate()
         {
             throw new NotImplementedException();
         }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 
     public class COND_IF_THEN : EXPRESSION
@@ -247,10 +266,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -259,6 +276,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -280,7 +313,7 @@ namespace SLang
 
         #endregion
 
-        public override bool generate()
+        public override void calculateType()
         {
             throw new NotImplementedException();
         }
@@ -415,11 +448,6 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Reporting
 
         public override void report(int sh)
@@ -428,6 +456,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class RETURN_EXPR : PRIMARY
@@ -448,11 +481,6 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Reporting
 
         public override void report(int sh)
@@ -461,6 +489,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class OLD : PRIMARY
@@ -480,11 +513,6 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Reporting
 
         public override void report(int sh)
@@ -494,6 +522,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class REFERENCE : PRIMARY
@@ -516,11 +549,6 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Reporting
 
         public override void report(int sh)
@@ -534,6 +562,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class UNRESOLVED : PRIMARY
@@ -555,11 +588,6 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
-
         #region Reporting
 
         public override void report(int sh)
@@ -573,6 +601,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 
@@ -622,8 +655,23 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check() { throw new NotImplementedException(); }
         public override bool verify() { throw new NotImplementedException(); }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate() { throw new NotImplementedException(); }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -634,8 +682,6 @@ namespace SLang
         }
 
         #endregion
-
-        public override bool generate() { throw new NotImplementedException(); }
     }
 
     public class TUPLE_EXPR : PRIMARY
@@ -665,10 +711,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             return base.check();
@@ -677,9 +721,26 @@ namespace SLang
         {
             return base.verify();
         }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate()
         {
             return base.generate();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -759,10 +820,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -771,11 +830,33 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
         public override void report(int sh)
         {
             throw new NotImplementedException();
         }
-        public override bool generate()
+
+        #endregion
+
+        public override void calculateType()
         {
             throw new NotImplementedException();
         }
@@ -987,10 +1068,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -999,6 +1078,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -1019,7 +1114,7 @@ namespace SLang
 
         #endregion
 
-        public override bool generate()
+        public override void calculateType()
         {
             throw new NotImplementedException();
         }
@@ -1094,10 +1189,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -1106,6 +1199,8 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
 
         #region Reporting
 
@@ -1116,6 +1211,11 @@ namespace SLang
         }
 
         #endregion
+
+        public override void calculateType()
+        {
+            throw new NotImplementedException();
+        }
 
     }
 
@@ -1138,10 +1238,8 @@ namespace SLang
 
         #endregion
 
-        public override void calculateType()
-        {
-            throw new NotImplementedException();
-        }
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -1150,6 +1248,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override string ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -1169,7 +1283,7 @@ namespace SLang
 
         #endregion
 
-        public override bool generate()
+        public override void calculateType()
         {
             throw new NotImplementedException();
         }
