@@ -94,8 +94,10 @@ namespace SLangCompiler
     {
         public static Dictionary<string,string> parse(string[] args)
         {
-            Dictionary<string,string> CommandLineOptions = new Dictionary<string,string>();
-            CommandLineOptions["file-name"] = ""; // reserve the position for the source file name
+            Dictionary<string, string> CommandLineOptions = new Dictionary<string, string>
+            {
+                ["file-name"] = "" // reserve the position for the source file name
+            };
 
             foreach (string arg in args)
             {
