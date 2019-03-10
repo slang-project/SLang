@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 
 namespace SLang
@@ -223,7 +224,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -286,7 +287,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -666,7 +667,7 @@ namespace SLang
 
         public override bool generate() { throw new NotImplementedException(); }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -731,7 +732,7 @@ namespace SLang
             return base.generate();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -840,7 +841,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -1088,7 +1089,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -1258,7 +1259,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }

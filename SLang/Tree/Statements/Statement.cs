@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -412,7 +413,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -480,7 +481,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -632,7 +633,7 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -758,7 +759,7 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -826,7 +827,7 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -875,7 +876,7 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -983,7 +984,7 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }
@@ -1049,7 +1050,7 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
             throw new NotImplementedException();
         }

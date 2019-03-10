@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 
 namespace SLang
@@ -54,7 +55,7 @@ namespace SLang
 
         public abstract bool generate();
 
-        public abstract string ToJSON();
+        public abstract JsonIr ToJSON();
 
         #endregion
 
@@ -276,9 +277,9 @@ namespace SLang
 
         public override bool generate() { return true; }
 
-        public override string ToJSON()
+        public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr("identifier", identifier);
         }
 
         #endregion

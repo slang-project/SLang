@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using SLang;
+using SLang.Service;
 
 namespace SLangCompiler
 {
@@ -80,8 +81,8 @@ namespace SLangCompiler
 
             if ( options.optDumpJSON )
             {
-                string json = compilation.ToJSON();
-                Console.Out.WriteLine(json);  // TODO: write to file
+                JsonIr json = compilation.ToJSON();
+                Console.Out.WriteLine(json.Serialize(true));  // TODO: write to file
             }
 
         Finish:
