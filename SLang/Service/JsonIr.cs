@@ -66,13 +66,13 @@ namespace SLang.Service
             return System.Web.Helpers.Json.Encode(s);
         }
 
-        public static JsonIr ListToJSON<T>(List<T> entitiesList) where T : ENTITY
+        public static JsonIr ListToJSON<T>(List<T> entities_list) where T : ENTITY
         {
-            if (entitiesList == null)
+            if (entities_list == null)
                 throw new ArgumentNullException();
 
             JsonIr irList = new JsonIr(typeof(T).Name + "_LIST");
-            foreach (ENTITY e in entitiesList)
+            foreach (ENTITY e in entities_list)
                 irList.AppendChild(e.ToJSON());
             return irList;
         }
