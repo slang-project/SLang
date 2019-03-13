@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace SLang.Service
 {
-
     public class JsonIr
     {
+        public const string JSON_NULL = "null";
         public static string nl { get; set; } = Environment.NewLine;
         public static string indent { get; set; } = "    ";
 
@@ -23,7 +23,7 @@ namespace SLang.Service
 
         public JsonIr(string typeName, string value)
         {
-            this.type = typeName;
+            this.type = typeName ?? throw new ArgumentNullException();
             this.value = value;
         }
 
@@ -31,20 +31,20 @@ namespace SLang.Service
         {
             ++num_children;
             children.Add(child);
-            return this;
+            return child == null ? JsonIrNull.Get() : this;
         }
 
-        public string Serialize(bool indentation)
+        public virtual string Serialize(bool indentation)
         {
             return String.Format(
-                "{{0}" +
+                "{{{0}" +
                 "{1}\"type\":{2},{0}" +
                 "{1}\"value\":{3},{0}" +
                 "{1}\"num_children\":{4},{0}" +
-                "{1}\"children\":[{0}" +
-                "{1}{1}{5}{0}" +
-                "{1}]{0}" +
-                "}",
+                "{1}\"children\":[" +
+                  (num_children > 0 ? "{0}{1}{1}{5}{0}{1}" : "") +
+                  "]{0}" +
+                "}}",
                 indentation ? nl: "",
                 indentation ? indent : "",
                 Jsonify(type),
@@ -62,16 +62,38 @@ namespace SLang.Service
 
         private string Jsonify(string s)
         {
-            if (s == null) return "null";
+            if (s == null) return JSON_NULL;
             return System.Web.Helpers.Json.Encode(s);
         }
 
         public static JsonIr ListToJSON<T>(List<T> entitiesList) where T : ENTITY
         {
-            if (entitiesList == null) return null;
+            if (entitiesList == null)
+                throw new ArgumentNullException();
+
             JsonIr irList = new JsonIr(typeof(T).Name + "_LIST");
-            foreach (ENTITY e in entitiesList) irList.AppendChild(e.ToJSON());
+            foreach (ENTITY e in entitiesList)
+                irList.AppendChild(e.ToJSON());
             return irList;
+        }
+
+        private class JsonIrNull : JsonIr
+        {
+            private static JsonIrNull instance;
+
+            private JsonIrNull() : base(JSON_NULL) { }
+
+            public static JsonIrNull Get()
+            {
+                if (instance == null)
+                    instance = new JsonIrNull();
+                return instance;
+            }
+
+            public override string Serialize(bool indentation)
+            {
+                return JSON_NULL;
+            }
         }
     }
 }

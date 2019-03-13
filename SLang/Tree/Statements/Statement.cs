@@ -415,7 +415,7 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return JsonIr.ListToJSON(body);
         }
 
         #endregion
@@ -483,7 +483,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(condition.ToJSON())
+                .AppendChild(thenPart.ToJSON());
         }
 
         #endregion
@@ -635,7 +637,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(ifThenParts))
+                .AppendChild(elsePart.ToJSON());
         }
 
         #endregion
@@ -761,7 +765,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(predicates));
         }
 
         #endregion
@@ -783,12 +788,20 @@ namespace SLang
 
     public class RAISE : STATEMENT
     {
+        #region Structure
+
         /// <summary>
         /// 
         /// </summary>
         public EXPRESSION expression { get; private set; }
-        
+
+        #endregion
+
+        #region Constructors
+
         public RAISE(EXPRESSION e) : base() { expression = e; }
+
+        #endregion
 
         #region Parser
 
@@ -829,7 +842,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(expression.ToJSON());
         }
 
         #endregion
@@ -851,12 +865,20 @@ namespace SLang
 
     public class RETURN : STATEMENT
     {
+        #region Structure
+
         /// <summary>
         /// 
         /// </summary>
         public EXPRESSION expression { get; private set; }
 
-        public RETURN(EXPRESSION e) : base() { expression = e;  }
+        #endregion
+
+        #region Constructors
+
+        public RETURN(EXPRESSION e) : base() { expression = e; }
+
+        #endregion
 
         #region Verification
 
@@ -878,7 +900,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(expression.ToJSON());
         }
 
         #endregion
@@ -986,7 +1009,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(new IDENTIFIER(label).ToJSON())
+                .AppendChild(labeled.ToJSON());
         }
 
         #endregion
@@ -1052,7 +1077,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(left.ToJSON())
+                .AppendChild(right.ToJSON());
         }
 
         #endregion
