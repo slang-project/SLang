@@ -279,11 +279,15 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return new JsonIr("identifier", identifier);
+            return new JsonIr(GetType(), identifier);
         }
 
         #endregion
 
+        #region Reporting
+
         public override void report(int sh) { }
+
+        #endregion
     }
 }

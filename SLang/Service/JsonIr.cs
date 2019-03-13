@@ -4,6 +4,7 @@ using System.Linq;
 
 namespace SLang.Service
 {
+
     public class JsonIr
     {
         public static string nl { get; set; } = Environment.NewLine;
@@ -14,18 +15,23 @@ namespace SLang.Service
         private uint num_children = 0;  // ushort???
         private List<JsonIr> children = new List<JsonIr>();
 
-        public JsonIr(string type) : this(type, null) { }
+        public JsonIr(Type type) : this(type, null) { }
 
-        public JsonIr(string type, string value)
+        public JsonIr(Type type, string value) : this(type.Name, null) { }
+
+        public JsonIr(string typeName) : this(typeName, null) { }
+
+        public JsonIr(string typeName, string value)
         {
-            this.type = type;
+            this.type = typeName;
             this.value = value;
         }
 
-        public void AppendChild(JsonIr child)
+        public JsonIr AppendChild(JsonIr child)
         {
             ++num_children;
             children.Add(child);
+            return this;
         }
 
         public string Serialize(bool indentation)
@@ -58,6 +64,14 @@ namespace SLang.Service
         {
             if (s == null) return "null";
             return System.Web.Helpers.Json.Encode(s);
+        }
+
+        public static JsonIr ListToJSON<T>(List<T> entitiesList) where T : ENTITY
+        {
+            if (entitiesList == null) return null;
+            JsonIr irList = new JsonIr(typeof(T).Name + "_LIST");
+            foreach (ENTITY e in entitiesList) irList.AppendChild(e.ToJSON());
+            return irList;
         }
     }
 }

@@ -225,7 +225,10 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(uses))
+                .AppendChild(JsonIr.ListToJSON(units_and_standalones))
+                .AppendChild(anonymous.ToJSON());
         }
 
         #endregion
