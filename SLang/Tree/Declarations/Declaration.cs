@@ -40,6 +40,12 @@ namespace SLang
 
         #endregion
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(name.ToJSON());
+        }
+
         public static bool parse(iSCOPE context)
         {
             Debug.Indent();
@@ -479,7 +485,15 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return base.ToJSON()
+                .AppendChild(type.ToJSON())
+                .AppendChild(initializer.ToJSON())
+                //.AppendChild(new JsonIr("CONST_SPEC", isConst ? "const" : null))
+                .AppendChild(new JsonIr("REF_VAL_SPEC", isRef ? "ref" : "val"))
+                //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))
+                //.AppendChild(new JsonIr("ABSTRACT_SPEC", isAbstract ? "abstract" : null))
+                .AppendChild(new JsonIr("FOREIGN_SPEC", isForeign ? "foreign" : null))
+                .AppendChild(new JsonIr("CONCURRENT_SPEC", isConcurrent ? "concurrent" : null));
         }
 
         #endregion
@@ -598,7 +612,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())  // do not use base.ToJSON(), no need
+                .AppendChild(JsonIr.ListToJSON(constants));
         }
 
         #endregion

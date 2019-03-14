@@ -59,6 +59,14 @@ namespace SLang
             return LOGICAL.parse(first,context);
         }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                // TODO: make sure if TYPE is not required in EXPRESSION IR
+                //.AppendChild(type.ToJSON())
+                ;
+        }
+
         public abstract void calculateType();
     }
 
@@ -226,7 +234,7 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return base.ToJSON();
         }
 
         #endregion
@@ -289,7 +297,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return base.ToJSON()
+                .AppendChild(condition.ToJSON())
+                .AppendChild(thenPart.ToJSON());
         }
 
         #endregion
@@ -425,6 +435,17 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(JsonIr.ListToJSON(ifThenParts))
+                .AppendChild(elsePart.ToJSON());
+        }
+
+        #endregion
+
         public override void calculateType()
         {
             throw new NotImplementedException();
@@ -524,6 +545,16 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(old.ToJSON());
+        }
+
+        #endregion
+
         public override void calculateType()
         {
             throw new NotImplementedException();
@@ -564,6 +595,16 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(declaration.ToJSON());
+        }
+
+        #endregion
+
         public override void calculateType()
         {
             throw new NotImplementedException();
@@ -599,6 +640,16 @@ namespace SLang
                 r = "UNRESOLVED " + name.identifier + ":??";
             }
             System.Console.WriteLine(commonAttrs() + shift(sh) + r);
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(name.ToJSON());
         }
 
         #endregion
@@ -669,7 +720,7 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType(), value.ToString());  // TODO: check
         }
 
         #endregion
@@ -734,7 +785,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return base.ToJSON()
+                .AppendChild(JsonIr.ListToJSON(expressions));
         }
 
         #endregion
@@ -841,11 +893,6 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        public override JsonIr ToJSON()
-        {
-            throw new NotImplementedException();
-        }
-
         #endregion
 
         #region Reporting
@@ -889,6 +936,17 @@ namespace SLang
         {
             this.secondary = prefix; prefix.parent = this;
             this.member = member;    member.parent = this;
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(secondary.ToJSON())
+                .AppendChild(member.ToJSON());
         }
 
         #endregion
@@ -994,6 +1052,17 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(secondary.ToJSON())
+                .AppendChild(JsonIr.ListToJSON(actuals));
+        }
+
+        #endregion
+
         public override void calculateType()
         {
             throw new NotImplementedException();
@@ -1091,7 +1160,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType(), unaryOp.value.ToString())
+                .AppendChild(primary.ToJSON());
         }
 
         #endregion
@@ -1119,49 +1189,6 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
-    }
-
-    public class POWER : BINARY
-    {
-        #region Creation
-
-        public POWER(EXPRESSION l, EXPRESSION r) : base(l, r) { }
-
-        #endregion
-
-        #region Parser
-
-        public static new EXPRESSION parse(Token token, iSCOPE context)
-        {
-            EXPRESSION result = SECONDARY.parse(token, context);
-            while (true)
-            {
-                token = get();
-                if ( token.code == TokenCode.Power )
-                {
-                    forget();
-                    EXPRESSION right = UNARY.parse(null,context);
-                    Span begin = result.span;
-                    result = new POWER(result,right);
-                    result.setSpan(begin,right.span);
-                }
-                else
-                    goto Out;
-            }
-        Out:
-            return result;
-        }
-
-        #endregion
-
-        #region Reporting
-
-        public override void report(int sh)
-        {
-            reportCommon(sh,"POWER **");
-        }
-
-        #endregion
     }
 
     public class NEW : UNARY
@@ -1217,7 +1244,49 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+    }
 
+    public class IN_EXPRESSION : UNARY
+    {
+        #region Structure
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public RANGE_TYPE range { get; private set; }
+
+        #endregion
+
+        #region Creation
+
+        public IN_EXPRESSION(Token t, EXPRESSION v, RANGE_TYPE r) : base(t, v)
+        {
+            range = r;
+            range.parent = this;
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(range.ToJSON());
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            System.Console.WriteLine(commonAttrs() + shift(sh) + "IN RELATION");
+            primary.report(sh + constant);
+            range.report(sh + constant);
+        }
+
+        #endregion
     }
 
     public class BINARY : EXPRESSION
@@ -1261,7 +1330,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(left.ToJSON())
+                .AppendChild(right.ToJSON());
         }
 
         #endregion
@@ -1288,6 +1359,49 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class POWER : BINARY
+    {
+        #region Creation
+
+        public POWER(EXPRESSION l, EXPRESSION r) : base(l, r) { }
+
+        #endregion
+
+        #region Parser
+
+        public static new EXPRESSION parse(Token token, iSCOPE context)
+        {
+            EXPRESSION result = SECONDARY.parse(token, context);
+            while (true)
+            {
+                token = get();
+                if (token.code == TokenCode.Power)
+                {
+                    forget();
+                    EXPRESSION right = UNARY.parse(null, context);
+                    Span begin = result.span;
+                    result = new POWER(result, right);
+                    result.setSpan(begin, right.span);
+                }
+                else
+                    goto Out;
+            }
+        Out:
+            return result;
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            reportCommon(sh, "POWER **");
+        }
+
+        #endregion
     }
 
     /// <summary>
@@ -1341,6 +1455,16 @@ namespace SLang
             }
          Out:
             return result;
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(new JsonIr("OP", multOp.value.ToString()));
         }
 
         #endregion
@@ -1412,6 +1536,16 @@ namespace SLang
             }
          Out:
             return result;
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(new JsonIr("OP", addOp.value.ToString()));
         }
 
         #endregion
@@ -1514,6 +1648,16 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(new JsonIr("OP", relOp.value.ToString()));
+        }
+
+        #endregion
+
         #region Reporting
 
         public override void report(int sh)
@@ -1533,39 +1677,6 @@ namespace SLang
              // 'in' operator is treated as unary!!
             }
             reportCommon(sh,sign);
-        }
-
-        #endregion
-    }
-
-    public class IN_EXPRESSION : UNARY
-    {
-        #region Structure
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public RANGE_TYPE range { get; private set; }
-
-        #endregion
-
-        #region Creation
-
-        public IN_EXPRESSION(Token t, EXPRESSION v, RANGE_TYPE r) : base(t,v)
-        {
-            range = r;
-            range.parent = this;
-        }
-
-        #endregion
-
-        #region Reporting
-
-        public override void report(int sh)
-        {
-            System.Console.WriteLine(commonAttrs() + shift(sh) + "IN RELATION");
-            primary.report(sh+constant);
-            range.report(sh + constant);
         }
 
         #endregion
@@ -1658,6 +1769,16 @@ namespace SLang
             }
          Out:
             return result;
+        }
+
+        #endregion
+
+        #region Code generation
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                .AppendChild(new JsonIr("OP", logOp.value.ToString()));
         }
 
         #endregion

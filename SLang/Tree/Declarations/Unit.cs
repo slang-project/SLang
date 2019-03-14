@@ -430,7 +430,17 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return base.ToJSON()
+                .AppendChild(new JsonIr("REF_VAL_SPEC", RefVal ? "ref" : "val"))
+                //.AppendChild(new JsonIr("ABSTRACT_SPEC", Abstract ? "abstract" : null))
+                .AppendChild(new JsonIr("CONCURRENT_SPEC", Concurrent ? "concurrent" : null))
+                //.AppendChild(alias.ToJSON())
+                .AppendChild(new JsonIr("FOREIGN_SPEC", foreign ? "foreign" : null))
+                //.AppendChild(JsonIr.ListToJSON(generics))
+                //.AppendChild(JsonIr.ListToJSON(inherits))
+                //.AppendChild(JsonIr.ListToJSON(uses))
+                .AppendChild(JsonIr.ListToJSON(declarations))
+                .AppendChild(JsonIr.ListToJSON(invariants));
         }
 
         #endregion
