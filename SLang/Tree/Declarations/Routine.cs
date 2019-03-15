@@ -437,12 +437,12 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(alias.ToJSON())
+                //.AppendChild(alias.ToJSON())
                 //.AppendChild(new JsonIr("PURE_SAFE_SPEC", isPure ? "pure" : isSafe ? "safe" : null))
                 //.AppendChild(new JsonIr("ABSTRACT_SPEC", isAbstract ? "abstract" : null))
                 .AppendChild(new JsonIr("FOREIGN_SPEC", isForeign ? "foreign" : null))
                 //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))
-                .AppendChild(type.ToJSON())
+                .AppendChild(type == null ? null : type.ToJSON())
                 //.AppendChild(JsonIr.ListToJSON(genericParameters))
                 .AppendChild(JsonIr.ListToJSON(parameters))
                 .AppendChild(

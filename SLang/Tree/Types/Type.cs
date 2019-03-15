@@ -134,7 +134,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(types));
         }
 
         #endregion
@@ -198,7 +199,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType())
+                .AppendChild(left.ToJSON())
+                .AppendChild(right.ToJSON());
         }
 
         #endregion
@@ -645,7 +648,10 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            throw new NotImplementedException();
+            return new JsonIr(GetType(), name);
+                //.AppendChild(new JsonIr("OPT_SPEC", opt ? "opt" : null))
+                //.AppendChild(new JsonIr("AS_SPEC", as_sign ? "as" : null))
+                //.AppendChild(JsonIr.ListToJSON(generic_actuals))
         }
 
         #endregion

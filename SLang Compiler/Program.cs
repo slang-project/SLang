@@ -72,8 +72,6 @@ namespace SLangCompiler
                 messagePool.error(pos,"system-bug");
             }
 
-            if ( !options.optGenerate ) goto Finish;
-
             // Phase 2: code generation
             // ===============================
 
@@ -85,9 +83,12 @@ namespace SLangCompiler
                 Console.Out.WriteLine(json.Serialize(true));  // TODO: write to file
             }
 
+            if ( !options.optGenerate ) goto Finish;
+
         Finish:
             messagePool.info("end-compilation");
         NoActions:
+            Console.ReadLine()
             ;
         }
     }

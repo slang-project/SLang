@@ -486,7 +486,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(type.ToJSON())
+                .AppendChild(type == null ? null : type.ToJSON())
                 .AppendChild(initializer.ToJSON())
                 //.AppendChild(new JsonIr("CONST_SPEC", isConst ? "const" : null))
                 .AppendChild(new JsonIr("REF_VAL_SPEC", isRef ? "ref" : "val"))
