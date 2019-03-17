@@ -1464,7 +1464,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(new JsonIr("OP", multOp.image));
+                .SetValue(multOp.image);
         }
 
         #endregion
@@ -1545,7 +1545,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(new JsonIr("OP", addOp.image));
+                .SetValue(addOp.image);
         }
 
         #endregion
@@ -1653,7 +1653,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(new JsonIr("OP", relOp.image));
+                .SetValue(relOp.image);
         }
 
         #endregion
@@ -1778,7 +1778,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(new JsonIr("OP", logOp.image));
+                .SetValue(logOp.image);
         }
 
         #endregion

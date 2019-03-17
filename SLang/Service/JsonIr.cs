@@ -27,6 +27,12 @@ namespace SLang.Service
             this.value = value;
         }
 
+        public JsonIr SetValue(string value)
+        {
+            this.value = value;
+            return this;
+        }
+
         public JsonIr AppendChild(JsonIr child)
         {
             ++num_children;
