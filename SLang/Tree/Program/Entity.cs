@@ -57,6 +57,12 @@ namespace SLang
 
         public abstract JsonIr ToJSON();
 
+        public static JsonIr ToJSON(ENTITY e)
+        {
+            if (e == null) return JsonIr.GetIrNull();
+            return e.ToJSON();
+        }
+
         #endregion
 
         #region Technical stuff

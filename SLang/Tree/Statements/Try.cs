@@ -302,9 +302,9 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                .AppendChild(catchVar.ToJSON())
-                .AppendChild(unit_ref.ToJSON())
-                .AppendChild(body.ToJSON());
+                .AppendChild(ToJSON(catchVar))
+                .AppendChild(ToJSON(unit_ref))
+                .AppendChild(ToJSON(body));
         }
 
         #endregion

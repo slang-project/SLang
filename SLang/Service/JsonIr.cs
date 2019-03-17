@@ -17,7 +17,7 @@ namespace SLang.Service
 
         public JsonIr(Type type) : this(type, null) { }
 
-        public JsonIr(Type type, string value) : this(type.Name, null) { }
+        public JsonIr(Type type, string value) : this(type.Name, value) { }
 
         public JsonIr(string typeName) : this(typeName, null) { }
 
@@ -31,7 +31,7 @@ namespace SLang.Service
         {
             ++num_children;
             children.Add(child);
-            return child == null ? JsonIrNull.Get() : this;
+            return child == null ? GetIrNull() : this;
         }
 
         public virtual string Serialize(bool indentation)
@@ -75,6 +75,11 @@ namespace SLang.Service
             foreach (ENTITY e in entities_list)
                 irList.AppendChild(e.ToJSON());
             return irList;
+        }
+
+        public static JsonIr GetIrNull()
+        {
+            return JsonIrNull.Get();
         }
 
         private class JsonIrNull : JsonIr

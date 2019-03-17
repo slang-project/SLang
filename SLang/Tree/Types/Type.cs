@@ -200,8 +200,8 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                .AppendChild(left.ToJSON())
-                .AppendChild(right.ToJSON());
+                .AppendChild(ToJSON(left))
+                .AppendChild(ToJSON(right));
         }
 
         #endregion

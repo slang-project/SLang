@@ -43,7 +43,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                .AppendChild(name.ToJSON());
+                .AppendChild(ToJSON(name));
         }
 
         public static bool parse(iSCOPE context)
@@ -486,8 +486,8 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(type == null ? null : type.ToJSON())
-                .AppendChild(initializer.ToJSON())
+                .AppendChild(ToJSON(type))
+                .AppendChild(ToJSON(initializer))
                 //.AppendChild(new JsonIr("CONST_SPEC", isConst ? "const" : null))
                 .AppendChild(new JsonIr("REF_VAL_SPEC", isRef ? "ref" : "val"))
                 //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))

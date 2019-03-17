@@ -434,7 +434,7 @@ namespace SLang
                 .AppendChild(new JsonIr("REF_VAL_SPEC", RefVal ? "ref" : "val"))
                 //.AppendChild(new JsonIr("ABSTRACT_SPEC", Abstract ? "abstract" : null))
                 .AppendChild(new JsonIr("CONCURRENT_SPEC", Concurrent ? "concurrent" : null))
-                //.AppendChild(alias.ToJSON())
+                //.AppendChild(ToJSON(alias))
                 .AppendChild(new JsonIr("FOREIGN_SPEC", foreign ? "foreign" : null))
                 //.AppendChild(JsonIr.ListToJSON(generics))
                 //.AppendChild(JsonIr.ListToJSON(inherits))

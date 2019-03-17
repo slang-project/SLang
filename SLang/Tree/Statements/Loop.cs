@@ -288,10 +288,10 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType(), prefix.ToString())
-                .AppendChild(loop_counter.ToJSON())
-                .AppendChild(while_clause.ToJSON())
+                .AppendChild(ToJSON(loop_counter))
+                .AppendChild(ToJSON(while_clause))
                 .AppendChild(JsonIr.ListToJSON(invariants))
-                .AppendChild(body.ToJSON())
+                .AppendChild(ToJSON(body))
                 .AppendChild(JsonIr.ListToJSON(variants));
         }
 

@@ -63,7 +63,7 @@ namespace SLang
         {
             return new JsonIr(GetType())
                 // TODO: make sure if TYPE is not required in EXPRESSION IR
-                //.AppendChild(type.ToJSON())
+                //.AppendChild(ToJSON(type))
                 ;
         }
 
@@ -298,8 +298,8 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(condition.ToJSON())
-                .AppendChild(thenPart.ToJSON());
+                .AppendChild(ToJSON(condition))
+                .AppendChild(ToJSON(thenPart));
         }
 
         #endregion
@@ -441,7 +441,7 @@ namespace SLang
         {
             return base.ToJSON()
                 .AppendChild(JsonIr.ListToJSON(ifThenParts))
-                .AppendChild(elsePart.ToJSON());
+                .AppendChild(ToJSON(elsePart));
         }
 
         #endregion
@@ -550,7 +550,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(old.ToJSON());
+                .AppendChild(ToJSON(old));
         }
 
         #endregion
@@ -600,7 +600,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(declaration.ToJSON());
+                .AppendChild(ToJSON(declaration));
         }
 
         #endregion
@@ -649,7 +649,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(name.ToJSON());
+                .AppendChild(ToJSON(name));
         }
 
         #endregion
@@ -945,8 +945,8 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(secondary.ToJSON())
-                .AppendChild(member.ToJSON());
+                .AppendChild(ToJSON(secondary))
+                .AppendChild(ToJSON(member));
         }
 
         #endregion
@@ -1057,7 +1057,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(secondary.ToJSON())
+                .AppendChild(ToJSON(secondary))
                 .AppendChild(JsonIr.ListToJSON(actuals));
         }
 
@@ -1161,7 +1161,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType(), unaryOp.image)
-                .AppendChild(primary.ToJSON());
+                .AppendChild(ToJSON(primary));
         }
 
         #endregion
@@ -1272,7 +1272,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                .AppendChild(range.ToJSON());
+                .AppendChild(ToJSON(range));
         }
 
         #endregion
@@ -1331,8 +1331,8 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                .AppendChild(left.ToJSON())
-                .AppendChild(right.ToJSON());
+                .AppendChild(ToJSON(left))
+                .AppendChild(ToJSON(right));
         }
 
         #endregion

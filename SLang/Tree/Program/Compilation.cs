@@ -228,7 +228,7 @@ namespace SLang
             return new JsonIr(GetType())
                 .AppendChild(JsonIr.ListToJSON(uses))
                 .AppendChild(JsonIr.ListToJSON(units_and_standalones))
-                .AppendChild(anonymous.ToJSON());
+                .AppendChild(ToJSON(anonymous));
         }
 
         #endregion
