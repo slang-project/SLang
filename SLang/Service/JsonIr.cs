@@ -69,7 +69,8 @@ namespace SLang.Service
         private string Jsonify(string s)
         {
             if (s == null) return JSON_NULL;
-            return System.Web.Helpers.Json.Encode(s);
+            //return System.Web.Helpers.Json.Encode(s);
+            return "\"" + s + "\"";  // TODO: escape
         }
 
         public static JsonIr ListToJSON<T>(List<T> entities_list) where T : ENTITY
