@@ -70,7 +70,15 @@ namespace SLang.Service
         {
             if (s == null) return JSON_NULL;
             //return System.Web.Helpers.Json.Encode(s);
-            return "\"" + s + "\"";  // TODO: escape
+            return "\"" + string.Concat(s.Select(
+                    c => char.IsControl(c) ?
+                        String.Format("\\u{0:X4}", c) :
+                        c == '"' ?
+                            "\\\"" :
+                            c == '\\' ?
+                                "\\\\" :
+                                c.ToString()
+                )) + "\"";  // TODO: test
         }
 
         public static JsonIr ListToJSON<T>(List<T> entities_list) where T : ENTITY
