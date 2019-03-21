@@ -66,13 +66,13 @@ namespace SLang.Service
                 );
         }
 
-        private string Jsonify(string s)
+        private static string Jsonify(string s)
         {
             if (s == null) return JSON_NULL;
             //return System.Web.Helpers.Json.Encode(s);
             return "\"" + string.Concat(s.Select(
                     c => char.IsControl(c) ?
-                        String.Format("\\u{0:X4}", c) :
+                        String.Format("\\u{0:X4}", (ushort)c) :
                         c == '"' ?
                             "\\\"" :
                             c == '\\' ?
