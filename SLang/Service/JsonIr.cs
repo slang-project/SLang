@@ -6,7 +6,7 @@ namespace SLang.Service
 {
     public class JsonIr
     {
-        public const string JSON_NULL = "null";
+        public const string JSON_NULL_REPRESENTATION = "null";
         public static string nl { get; set; } = Environment.NewLine;
         public static string indent { get; set; } = "    ";
 
@@ -68,7 +68,7 @@ namespace SLang.Service
 
         private static string Jsonify(string s)
         {
-            if (s == null) return JSON_NULL;
+            if (s == null) return JSON_NULL_REPRESENTATION;
             //return System.Web.Helpers.Json.Encode(s);
             return "\"" + string.Concat(s.Select(
                     c => char.IsControl(c) ?
@@ -78,7 +78,7 @@ namespace SLang.Service
                             c == '\\' ?
                                 "\\\\" :
                                 c.ToString()
-                )) + "\"";  // TODO: test
+                )) + "\"";
         }
 
         public static JsonIr ListToJSON<T>(List<T> entities_list) where T : ENTITY
@@ -101,7 +101,7 @@ namespace SLang.Service
         {
             private static JsonIrNull instance;
 
-            private JsonIrNull() : base(JSON_NULL) { }
+            private JsonIrNull() : base(JSON_NULL_REPRESENTATION) { }
 
             public static JsonIrNull Get()
             {
@@ -112,7 +112,7 @@ namespace SLang.Service
 
             public override string Serialize(bool indentation)
             {
-                return JSON_NULL;
+                return JSON_NULL_REPRESENTATION;
             }
         }
     }
