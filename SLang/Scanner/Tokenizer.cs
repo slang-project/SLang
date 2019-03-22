@@ -547,12 +547,12 @@ namespace SLang
                 curr == 't'  ? '\t':
                 curr == 'n'  ? '\n':
                 curr == 'r'  ? '\r':
-                curr == 'x'  ? parseX():
-                curr == 'u'  ? parseU():
+                curr == 'x'  ? scanEscapeX():
+                curr == 'u'  ? scanEscapeU():
                 curr;  // TODO: unknown escape exception??
         }
 
-        private char parseX()
+        private char scanEscapeX()
         {
             reader.forgetChar();
             string toConvert = reader.getChar().ToString();
@@ -561,7 +561,7 @@ namespace SLang
             return (char)int.Parse(toConvert, System.Globalization.NumberStyles.HexNumber);
         }
 
-        private char parseU()
+        private char scanEscapeU()
         {
             reader.forgetChar();
             string toConvert = reader.getChar().ToString();
