@@ -186,19 +186,10 @@ namespace SLang
                     break;
 
                 case TokenCode.Integer:
-                    result = new LITERAL(token.value,token.span,TokenCode.Integer);
-                    result.setSpan(token);
-                    forget();
-                    break;
-
                 case TokenCode.Real:
-                    result = new LITERAL(token.value, token.span, TokenCode.Real);
-                    result.setSpan(token);
-                    forget();
-                    break;
-
                 case TokenCode.String:
-                    result = new LITERAL(token.value, token.span, TokenCode.String);
+                case TokenCode.Character:
+                    result = new LITERAL(token.value, token.span, token.code);
                     result.setSpan(token);
                     forget();
                     break;
