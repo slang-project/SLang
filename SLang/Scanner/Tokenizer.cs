@@ -538,22 +538,18 @@ namespace SLang
         /// <returns></returns>
         private char scanEscape()
         {
-            reader.forgetChar();
+            reader.forgetChar(); // skip backslash
             char curr = reader.getChar();
-            switch ( curr )
-            {
-                case '\\': return '\\';
-                case '\'': return '\'';
-                case '"' : return '"';
-                case 't' : return '\t';
-                case 'n' : return '\n';
-                case 'r' : return '\r';
-
-                case 'x' : return parseX();
-                case 'u' : return parseU();
-
-                default: return '0';
-            }
+            return
+                curr == '\\' ? '\\':
+                curr == '\'' ? '\'':
+                curr == '"'  ? '"' :
+                curr == 't'  ? '\t':
+                curr == 'n'  ? '\n':
+                curr == 'r'  ? '\r':
+                curr == 'x'  ? parseX():
+                curr == 'u'  ? parseU():
+                curr;  // TODO: unknown escape exception??
         }
 
         private char parseX()
