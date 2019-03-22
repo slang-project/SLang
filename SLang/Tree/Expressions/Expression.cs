@@ -711,7 +711,7 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return new JsonIr(GetType(), value.ToString());  // TODO: check
+            return new JsonIr(GetType().Name + "_" + code.ToString(), value.ToString());
         }
 
         #endregion
