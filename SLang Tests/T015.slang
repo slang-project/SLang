@@ -1,2 +1,2 @@
 a() is end
-b is "\"hello\n\"" - a()
+b is 5 + 4.0 * 'i' / "\"hello\n\"\x4B" - a()

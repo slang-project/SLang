@@ -80,7 +80,7 @@ namespace SLangCompiler
             if ( options.optDumpJSON )
             {
                 JsonIr json = compilation.ToJSON();
-                Console.Out.WriteLine(json.Serialize(true));  // TODO: write to file
+                Debug.WriteLine(json.Serialize(true));  // TODO: write to file
             }
 
             if ( !options.optGenerate ) goto Finish;
@@ -88,7 +88,6 @@ namespace SLangCompiler
         Finish:
             messagePool.info("end-compilation");
         NoActions:
-            Console.ReadLine()
             ;
         }
     }
