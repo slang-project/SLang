@@ -591,7 +591,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(ToJSON(declaration));
+                .AppendChild(ToJSON(declaration.name));
         }
 
         #endregion
@@ -640,7 +640,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(ToJSON(name));
+                .AppendChild(ToJSON(name));  // TODO: exception??
         }
 
         #endregion
