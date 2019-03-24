@@ -36,8 +36,8 @@ namespace SLang.Service
         public JsonIr AppendChild(JsonIr child)
         {
             ++num_children;
-            children.Add(child);
-            return child == null ? GetIrNull() : this;
+            children.Add(child ?? GetIrNull());
+            return this;
         }
 
         public virtual string Serialize(bool indentation)

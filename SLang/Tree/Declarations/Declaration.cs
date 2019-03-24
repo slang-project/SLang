@@ -486,14 +486,14 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(ToJSON(type))
-                .AppendChild(ToJSON(initializer))
                 //.AppendChild(new JsonIr("CONST_SPEC", isConst ? "const" : null))
                 .AppendChild(new JsonIr("REF_VAL_SPEC", isRef ? "ref" : "val"))
                 //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))
                 //.AppendChild(new JsonIr("ABSTRACT_SPEC", isAbstract ? "abstract" : null))
-                .AppendChild(new JsonIr("FOREIGN_SPEC", isForeign ? "foreign" : null))
-                .AppendChild(new JsonIr("CONCURRENT_SPEC", isConcurrent ? "concurrent" : null));
+                .AppendChild(isConcurrent ? new JsonIr("CONCURRENT_SPEC") : null)
+                .AppendChild(isForeign ? new JsonIr("FOREIGN_SPEC") : null)
+                .AppendChild(ToJSON(type))
+                .AppendChild(ToJSON(initializer));
         }
 
         #endregion

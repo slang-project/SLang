@@ -431,14 +431,14 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
+                //.AppendChild(ToJSON(alias))
                 .AppendChild(new JsonIr("REF_VAL_SPEC", RefVal ? "ref" : "val"))
                 //.AppendChild(new JsonIr("ABSTRACT_SPEC", Abstract ? "abstract" : null))
-                .AppendChild(new JsonIr("CONCURRENT_SPEC", Concurrent ? "concurrent" : null))
-                //.AppendChild(ToJSON(alias))
-                .AppendChild(new JsonIr("FOREIGN_SPEC", foreign ? "foreign" : null))
+                .AppendChild(Concurrent ? new JsonIr("CONCURRENT_SPEC") : null)
                 //.AppendChild(JsonIr.ListToJSON(generics))
                 //.AppendChild(JsonIr.ListToJSON(inherits))
                 //.AppendChild(JsonIr.ListToJSON(uses))
+                .AppendChild(foreign ? new JsonIr("FOREIGN_SPEC") : null)
                 .AppendChild(JsonIr.ListToJSON(declarations))
                 .AppendChild(JsonIr.ListToJSON(invariants));
         }
