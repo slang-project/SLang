@@ -28,10 +28,6 @@ namespace SLangCompiler
             // Opening message pool
             Message messagePool = new Message(options);
 
-            // Setting call/exit tracing mode
-            //if ( options.optDebug )
-            //    Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
-            
             // Output compiler title & version
             if ( options.optPrintVersion )
                 messagePool.info("compiler-title","0.0.0.1 prototype");
