@@ -936,7 +936,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return base.ToJSON()
-                .AppendChild(ToJSON(secondary))
+                .AppendChild(ToJSON(secondary))  // TODO: change!
                 .AppendChild(ToJSON(member));
         }
 
