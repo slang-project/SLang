@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SLang
 {
@@ -415,7 +416,9 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return JsonIr.ListToJSON(body);
+            return JsonIr.ListToJSON(body.Where(
+                    o => !(o is DECLARATION) || (o is VARIABLE)  // TODO: check
+                ).ToList());
         }
 
         #endregion

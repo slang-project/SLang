@@ -62,9 +62,7 @@ namespace SLang
         public override JsonIr ToJSON()
         {
             return new JsonIr(GetType())
-                // TODO: make sure if TYPE is not required in EXPRESSION IR
-                //.AppendChild(ToJSON(type))
-                ;
+                .AppendChild(ToJSON(type));  // TODO: check
         }
 
         public abstract void calculateType();
@@ -221,11 +219,6 @@ namespace SLang
         public override bool generate()
         {
             throw new NotImplementedException();
-        }
-
-        public override JsonIr ToJSON()
-        {
-            return base.ToJSON();
         }
 
         #endregion
@@ -711,7 +704,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return new JsonIr(GetType().Name + "_" + code.ToString(), value.ToString());
+            return base.ToJSON()
+                .SetValue(value.ToString());
         }
 
         #endregion
@@ -1151,7 +1145,8 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return new JsonIr(GetType(), unaryOp.image)
+            return base.ToJSON()
+                .SetValue(unaryOp.image)
                 .AppendChild(ToJSON(primary));
         }
 
@@ -1321,7 +1316,7 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            return new JsonIr(GetType())
+            return base.ToJSON()
                 .AppendChild(ToJSON(left))
                 .AppendChild(ToJSON(right));
         }

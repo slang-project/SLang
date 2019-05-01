@@ -225,13 +225,10 @@ namespace SLang
 
         public override JsonIr ToJSON()
         {
-            /*
             return new JsonIr(GetType())
                 //.AppendChild(JsonIr.ListToJSON(uses))
-                //.AppendChild(JsonIr.ListToJSON(units_and_standalones))  // TODO: check
+                .AppendChild(JsonIr.ListToJSON(units_and_standalones))
                 .AppendChild(ToJSON(anonymous));
-            */
-            return ToJSON(anonymous);  // TODO: separate object for COMPILATION??
         }
 
         #endregion

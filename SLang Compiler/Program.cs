@@ -134,5 +134,4 @@ namespace SLangCompiler
             return CommandLineOptions;
         }
     }
-
 }
