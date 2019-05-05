@@ -12,4 +12,4 @@ else
     end
 end
 
-return b
+StandardIO.put(b)
