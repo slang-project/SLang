@@ -30,12 +30,18 @@ namespace SLangCompiler
 
             // Output compiler title & version
             if ( options.optPrintVersion )
-                messagePool.info("compiler-title","0.0.0.1 prototype");
+                messagePool.info("compiler-title", "0.0.0.1 prototype");
 
             // Opening the source file
             if ( fileName == "" )
             {
-                messagePool.error(null,"no-file","");
+                messagePool.error(null, "empty-path");
+                goto Finish;
+            }
+
+            if ( !System.IO.File.Exists(fileName) )
+            {
+                messagePool.error(null, "no-file", fileName);
                 goto Finish;
             }
 
@@ -65,18 +71,19 @@ namespace SLangCompiler
             catch ( TerminateSLangCompiler exc )
             {
                 Position pos = (exc == null) ? null : exc.position;
-                messagePool.error(pos,"system-bug");
+                messagePool.error(pos, "system-bug");
+                goto Finish;
             }
+
+            // TODO: semantic analysis call?
 
             // Phase 2: code generation
             // ===============================
 
-            // TODO: code generation call
-
             if ( options.optDumpJSON )
             {
                 JsonIr json = compilation.ToJSON();
-                Debug.WriteLine(json.Serialize(true));  // TODO: write to file
+                System.IO.File.WriteAllText(fileName + ".json", json.Serialize(false));
             }
 
             if ( !options.optGenerate ) goto Finish;
