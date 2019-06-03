@@ -12,7 +12,6 @@ namespace SLang.Service
 
         private string type;
         private string value;
-        private uint num_children = 0;  // ushort???
         private List<JsonIr> children = new List<JsonIr>();
 
         public JsonIr(Type type) : this(type, null) { }
@@ -35,7 +34,6 @@ namespace SLang.Service
 
         public JsonIr AppendChild(JsonIr child)
         {
-            ++num_children;
             children.Add(child ?? GetIrNull());
             return this;
         }
@@ -48,14 +46,13 @@ namespace SLang.Service
                 "{1}\"value\":{3},{0}" +
                 "{1}\"num_children\":{4},{0}" +
                 "{1}\"children\":[" +
-                  (num_children > 0 ? "{0}{1}{1}{5}{0}{1}" : "") +
+                  (children.Count() > 0 ? "{0}{1}{1}{4}{0}{1}" : "") +
                   "]{0}" +
                 "}}",
                 indentation ? nl: "",
                 indentation ? indent : "",
                 Jsonify(type),
                 Jsonify(value),
-                num_children,
                 string.Join(
                     "," + (indentation ? nl + indent + indent : ""),
                     children.Select(
