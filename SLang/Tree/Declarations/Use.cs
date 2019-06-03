@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 
 namespace SLang
@@ -84,6 +85,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -98,6 +104,5 @@ namespace SLang
         }
 
         #endregion
-
     }
 }

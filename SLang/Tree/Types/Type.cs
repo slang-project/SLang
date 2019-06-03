@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -131,6 +132,12 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(types));
+        }
+
         #endregion
 
         #region Reporting
@@ -173,6 +180,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -181,6 +190,22 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Code generation
+
+        public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(left))
+                .AppendChild(ToJSON(right));
+        }
+
+        #endregion
+
         #region Reporting
 
         public override void report(int sh)
@@ -196,11 +221,6 @@ namespace SLang
         }
 
         #endregion
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     /// <summary>
@@ -401,6 +421,11 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -621,6 +646,14 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType(), name);
+                //.AppendChild(new JsonIr("OPT_SPEC", opt ? "opt" : null))
+                //.AppendChild(new JsonIr("AS_SPEC", as_sign ? "as" : null))
+                //.AppendChild(JsonIr.ListToJSON(generic_actuals))
+        }
+
         #endregion
 
         #region Reporting
@@ -645,6 +678,8 @@ namespace SLang
 
     public class ROUTINE_TYPE : TYPE
     {
+        #region Parser
+
         new public static ROUTINE_TYPE parse(iSCOPE context)
         {
             Debug.Indent();
@@ -657,9 +692,30 @@ namespace SLang
             return null;
         }
 
+        #endregion
+
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
         public override void report(int sh) { }
+
+        #endregion
     }
 }

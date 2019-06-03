@@ -1,4 +1,4 @@
-﻿using System;
+﻿using SLang.Service;
 using System.Collections.Generic;
 
 namespace SLang
@@ -54,7 +54,13 @@ namespace SLang
 
         public abstract bool generate();
 
-     // public abstract string ToJSON();
+        public abstract JsonIr ToJSON();
+
+        public static JsonIr ToJSON(ENTITY e)
+        {
+            if (e == null) return JsonIr.GetIrNull();
+            return e.ToJSON();
+        }
 
         #endregion
 
@@ -265,9 +271,28 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
+
+        #region Code generation
+
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType(), identifier);
+        }
+
+        #endregion
+
+        #region Reporting
+
         public override void report(int sh) { }
+
+        #endregion
     }
 }

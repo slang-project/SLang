@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -427,6 +428,21 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                //.AppendChild(ToJSON(alias))
+                .AppendChild(new JsonIr("REF_VAL_SPEC", RefVal ? "ref" : "val"))
+                //.AppendChild(new JsonIr("ABSTRACT_SPEC", Abstract ? "abstract" : null))
+                .AppendChild(Concurrent ? new JsonIr("CONCURRENT_SPEC") : null)
+                //.AppendChild(JsonIr.ListToJSON(generics))
+                //.AppendChild(JsonIr.ListToJSON(inherits))
+                //.AppendChild(JsonIr.ListToJSON(uses))
+                .AppendChild(foreign ? new JsonIr("FOREIGN_SPEC") : null)
+                .AppendChild(JsonIr.ListToJSON(declarations))
+                .AppendChild(JsonIr.ListToJSON(invariants));
+        }
+
         #endregion
 
         #region Reporting
@@ -566,6 +582,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -600,7 +621,5 @@ namespace SLang
         }
 
         #endregion
-
     }
-
 }

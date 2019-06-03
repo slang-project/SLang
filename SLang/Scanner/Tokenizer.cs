@@ -489,15 +489,20 @@ namespace SLang
         /// <returns></returns>
         private Token scanCharacter()
         {
-            string image = "";
             char value = '\0';
             Position begin = reader.currPos();
-
+            
             reader.forgetChar(); // skip '
             char curr = reader.getChar();
+            if (curr == '\'') throw new NotImplementedException(); // TODO: lexer exception
+            value = curr == '\\' ? scanEscape() : curr;
+            reader.forgetChar();
+
+            if (reader.getChar() != '\'') throw new NotImplementedException(); // TODO: lexer exception
+            reader.forgetChar(); // skip '
 
             return new Token(new Span(begin,reader.currPos()),TokenCode.Character,
-                             image,
+                             "'" + value + "'",
                              new Category(CategoryCode.literal),
                              value);
         }
@@ -508,7 +513,6 @@ namespace SLang
         /// <returns></returns>
         private Token scanString()
         {
-            string image = "";
             string value = "";
             Position begin = reader.currPos();
 
@@ -516,13 +520,14 @@ namespace SLang
             while(true)
             {
                 char curr = reader.getChar();
-                if ( curr == '"' ) { reader.forgetChar(); break; }
-                image += curr;
+                if ( curr == '"' ) break;
+                value += curr == '\\' ? scanEscape() : curr;
                 reader.forgetChar();
             }
+            reader.forgetChar(); // skip "
 
             return new Token(new Span(begin, reader.currPos()), TokenCode.String,
-                             image,
+                             "\"" + value + "\"",
                              new Category(CategoryCode.literal),
                              value);
         }
@@ -533,22 +538,40 @@ namespace SLang
         /// <returns></returns>
         private char scanEscape()
         {
+            reader.forgetChar(); // skip backslash
             char curr = reader.getChar();
-            switch ( curr )
-            {
-                case '\\': return '\\';
-                case '\'': return '\'';
-                case '"' : return '"';
-                case 't' : return '\t';
-                case 'n' : return '\n';
-                case 'r' : return '\r';
+            return
+                curr == '\\' ? '\\':
+                curr == '\'' ? '\'':
+                curr == '"'  ? '"' :
+                curr == 't'  ? '\t':
+                curr == 'n'  ? '\n':
+                curr == 'r'  ? '\r':
+                curr == 'x'  ? scanEscapeX():
+                curr == 'u'  ? scanEscapeU():
+                curr;  // TODO: unknown escape exception??
+        }
 
-                case 'x' :
-                case 'u' : return '0'; // not implemented
+        private char scanEscapeX()
+        {
+            reader.forgetChar();
+            string toConvert = reader.getChar().ToString();
+            reader.forgetChar();
+            toConvert += reader.getChar();
+            return (char)int.Parse(toConvert, System.Globalization.NumberStyles.HexNumber);
+        }
 
-                default: return '0';
-            }
-
+        private char scanEscapeU()
+        {
+            reader.forgetChar();
+            string toConvert = reader.getChar().ToString();
+            reader.forgetChar();
+            toConvert += reader.getChar();
+            reader.forgetChar();
+            toConvert += reader.getChar();
+            reader.forgetChar();
+            toConvert += reader.getChar();
+            return (char)int.Parse(toConvert, System.Globalization.NumberStyles.HexNumber);
         }
 
         private Token scanNumeric ( int power, bool m = false )

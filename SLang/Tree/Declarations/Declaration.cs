@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -38,6 +39,12 @@ namespace SLang
         public DECLARATION ( IDENTIFIER n ) { name = n; }
 
         #endregion
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(name));
+        }
 
         public static bool parse(iSCOPE context)
         {
@@ -476,6 +483,19 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                //.AppendChild(new JsonIr("CONST_SPEC", isConst ? "const" : null))
+                .AppendChild(new JsonIr("REF_VAL_SPEC", isRef ? "ref" : "val"))
+                //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))
+                //.AppendChild(new JsonIr("ABSTRACT_SPEC", isAbstract ? "abstract" : null))
+                .AppendChild(isConcurrent ? new JsonIr("CONCURRENT_SPEC") : null)
+                .AppendChild(isForeign ? new JsonIr("FOREIGN_SPEC") : null)
+                .AppendChild(ToJSON(type))
+                .AppendChild(ToJSON(initializer));
+        }
+
         #endregion
 
         #region Reporting
@@ -583,10 +603,22 @@ namespace SLang
 
         #endregion
 
+        #region Code generation
+
         public override bool generate()
         {
             throw new NotImplementedException();
         }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())  // do not use base.ToJSON(), no need
+                .AppendChild(JsonIr.ListToJSON(constants));
+        }
+
+        #endregion
+
+        #region Reporting
 
         public override void report(int sh)
         {
@@ -606,5 +638,7 @@ namespace SLang
                     c.report(sh+constant);
             }
         }
+
+        #endregion
     }
 }

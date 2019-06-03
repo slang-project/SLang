@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -283,6 +284,16 @@ namespace SLang
         #region Generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType(), prefix.ToString())
+                .AppendChild(ToJSON(loop_counter))
+                .AppendChild(ToJSON(while_clause))
+                .AppendChild(JsonIr.ListToJSON(invariants))
+                .AppendChild(ToJSON(body))
+                .AppendChild(JsonIr.ListToJSON(variants));
+        }
 
         #endregion
 

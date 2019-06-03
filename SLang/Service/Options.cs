@@ -158,8 +158,8 @@ namespace SLang
             System.Console.WriteLine("/g");
             System.Console.WriteLine("/gen");
             System.Console.WriteLine("/generate    Generate target code (YES by default)");
-            System.Console.WriteLine("/m           Set the maximal number of error messages (not implemented)");
-            System.Console.WriteLine("/max");
+            System.Console.WriteLine("/m");
+            System.Console.WriteLine("/max         Set the maximal number of error messages (not implemented)");
             System.Console.WriteLine("/w           Treat warnings as errors (not implemented)");
             System.Console.WriteLine("/c           Configuration mode ('package' keyword etc.) (NO by default)");
         }

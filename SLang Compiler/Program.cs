@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 
 using SLang;
+using SLang.Service;
 
 namespace SLangCompiler
 {
@@ -27,18 +28,20 @@ namespace SLangCompiler
             // Opening message pool
             Message messagePool = new Message(options);
 
-            // Setting call/exit tracing mode
-            if ( options.optDebug )
-                Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
-            
             // Output compiler title & version
             if ( options.optPrintVersion )
-                messagePool.info("compiler-title","0.0.0.1 prototype");
+                messagePool.info("compiler-title", "0.0.0.1 prototype");
 
             // Opening the source file
             if ( fileName == "" )
             {
-                messagePool.error(null,"no-file","");
+                messagePool.error(null, "empty-path");
+                goto Finish;
+            }
+
+            if ( !System.IO.File.Exists(fileName) )
+            {
+                messagePool.error(null, "no-file", fileName);
                 goto Finish;
             }
 
@@ -51,12 +54,12 @@ namespace SLangCompiler
             // Phase 1: parsing
             // ================
 
+            COMPILATION compilation = null;
             try
             {
                 try
                 {
-                    COMPILATION compilation = COMPILATION.parse();
-
+                    compilation = COMPILATION.parse();
                     if ( options.optDumpAST )
                         compilation.report(4);
                 }
@@ -68,20 +71,22 @@ namespace SLangCompiler
             catch ( TerminateSLangCompiler exc )
             {
                 Position pos = (exc == null) ? null : exc.position;
-                messagePool.error(pos,"system-bug");
+                messagePool.error(pos, "system-bug");
+                goto Finish;
             }
 
-            if ( !options.optGenerate ) goto Finish;
+            // TODO: semantic analysis call?
 
-            // Phase 2: conversion AST to JSON
+            // Phase 2: code generation
             // ===============================
-
-            /////// Conversion to JSON should be here!!
 
             if ( options.optDumpJSON )
             {
-                /////// JSON dump should be here!!
+                JsonIr json = compilation.ToJSON();
+                System.IO.File.WriteAllText(fileName + ".json", json.Serialize(false));
             }
+
+            if ( !options.optGenerate ) goto Finish;
 
         Finish:
             messagePool.info("end-compilation");
@@ -94,8 +99,10 @@ namespace SLangCompiler
     {
         public static Dictionary<string,string> parse(string[] args)
         {
-            Dictionary<string,string> CommandLineOptions = new Dictionary<string,string>();
-            CommandLineOptions["file-name"] = ""; // reserve the position for the source file name
+            Dictionary<string, string> CommandLineOptions = new Dictionary<string, string>
+            {
+                ["file-name"] = "" // reserve the position for the source file name
+            };
 
             foreach (string arg in args)
             {
@@ -134,5 +141,4 @@ namespace SLangCompiler
             return CommandLineOptions;
         }
     }
-
 }

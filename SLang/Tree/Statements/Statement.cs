@@ -1,6 +1,8 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SLang
 {
@@ -391,6 +393,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -401,15 +405,6 @@ namespace SLang
             throw new NotImplementedException();
         }
 
-        #region Reporting
-
-        public override void report(int sh)
-        {
-            System.Console.WriteLine(commonAttrs() + shift(sh) + "BODY");
-            foreach (ENTITY entity in body)
-                entity.report(sh+constant);
-        }
-
         #endregion
 
         #region Generation
@@ -417,6 +412,24 @@ namespace SLang
         public override bool generate()
         {
             throw new NotImplementedException();
+        }
+
+        public override JsonIr ToJSON()
+        {
+            return JsonIr.ListToJSON(body.Where(
+                    o => !(o is DECLARATION) || (o is VARIABLE)  // TODO: check
+                ).ToList());
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            System.Console.WriteLine(commonAttrs() + shift(sh) + "BODY");
+            foreach (ENTITY entity in body)
+                entity.report(sh+constant);
         }
 
         #endregion
@@ -451,6 +464,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -459,6 +474,24 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(condition))
+                .AppendChild(ToJSON(thenPart));
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -482,15 +515,6 @@ namespace SLang
             thenPart.report(sh+constant);
 
             return common.Length;
-        }
-
-        #endregion
-
-        #region Generation
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -603,12 +627,23 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check() { return true; }
         public override bool verify() { return true; }
+
+        #endregion
 
         #region Generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(ifThenParts))
+                .AppendChild(ToJSON(elsePart));
+        }
 
         #endregion
 
@@ -731,6 +766,12 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(JsonIr.ListToJSON(predicates));
+        }
+
         #endregion
 
         #region Reporting
@@ -750,12 +791,20 @@ namespace SLang
 
     public class RAISE : STATEMENT
     {
+        #region Structure
+
         /// <summary>
         /// 
         /// </summary>
         public EXPRESSION expression { get; private set; }
-        
+
+        #endregion
+
+        #region Constructors
+
         public RAISE(EXPRESSION e) : base() { expression = e; }
+
+        #endregion
 
         #region Parser
 
@@ -794,6 +843,12 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(expression));
+        }
+
         #endregion
 
         #region Reporting
@@ -813,12 +868,20 @@ namespace SLang
 
     public class RETURN : STATEMENT
     {
+        #region Structure
+
         /// <summary>
         /// 
         /// </summary>
         public EXPRESSION expression { get; private set; }
 
-        public RETURN(EXPRESSION e) : base() { expression = e;  }
+        #endregion
+
+        #region Constructors
+
+        public RETURN(EXPRESSION e) : base() { expression = e; }
+
+        #endregion
 
         #region Verification
 
@@ -837,6 +900,12 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(expression));
+        }
 
         #endregion
 
@@ -941,6 +1010,12 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType(), label);
+                //.AppendChild(ToJSON(labeled))
+        }
+
         #endregion
 
         #region Reporting
@@ -982,6 +1057,8 @@ namespace SLang
 
         #endregion
 
+        #region Verification
+
         public override bool check()
         {
             throw new NotImplementedException();
@@ -990,6 +1067,24 @@ namespace SLang
         {
             throw new NotImplementedException();
         }
+
+        #endregion
+
+        #region Generation
+
+        public override bool generate()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override JsonIr ToJSON()
+        {
+            return new JsonIr(GetType())
+                .AppendChild(ToJSON(left))
+                .AppendChild(ToJSON(right));
+        }
+
+        #endregion
 
         #region Reporting
 
@@ -1004,15 +1099,6 @@ namespace SLang
 
             System.Console.WriteLine(shift(common.Length+sh) + "RIGHT");
             right.report(sh + constant);
-        }
-
-        #endregion
-
-        #region Generation
-
-        public override bool generate()
-        {
-            throw new NotImplementedException();
         }
 
         #endregion

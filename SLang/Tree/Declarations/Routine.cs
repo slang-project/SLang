@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -432,6 +433,28 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            return base.ToJSON()
+                //.AppendChild(ToJSON(alias))
+                //.AppendChild(new JsonIr("PURE_SAFE_SPEC", isPure ? "pure" : isSafe ? "safe" : null))
+                //.AppendChild(new JsonIr("ABSTRACT_SPEC", isAbstract ? "abstract" : null))
+                .AppendChild(isForeign ? new JsonIr("FOREIGN_SPEC") : null)
+                //.AppendChild(new JsonIr("OVERRIDE_SPEC", isOverride ? "override" : null))
+                //.AppendChild(JsonIr.ListToJSON(genericParameters))
+                .AppendChild(JsonIr.ListToJSON(parameters))
+                .AppendChild(ToJSON(type))
+                .AppendChild(
+                    new JsonIr("PRECONDITION", requireElse ? "require else" : null)
+                        .AppendChild(JsonIr.ListToJSON(preconditions))
+                    )
+                .AppendChild(ToJSON(routineBody))
+                .AppendChild(
+                    new JsonIr("POSTCONDITION", ensureThen ? "ensure then" : null)
+                        .AppendChild(JsonIr.ListToJSON(postconditions))
+                    );
+        }
 
         #endregion
 

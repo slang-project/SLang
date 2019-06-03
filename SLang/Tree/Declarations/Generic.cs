@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SLang.Service;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 
@@ -77,6 +78,11 @@ namespace SLang
 
         #region Code generation
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -209,6 +215,11 @@ namespace SLang
 
         public override bool generate() { return true; }
 
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Reporting
@@ -279,18 +290,6 @@ namespace SLang
 
         #endregion
 
-        #region Reporting
-
-        public override void report(int sh)
-        {
-            string r = commonAttrs() + shift(sh) + "FORMAL NON-TYPE " + name.identifier;
-            System.Console.WriteLine(r);
-
-            type.report(sh + constant);
-        }
-
-        #endregion
-
         #region Verify
 
         public override bool check() { return true; }
@@ -301,6 +300,23 @@ namespace SLang
         #region Code generation
 
         public override bool generate() { return true; }
+
+        public override JsonIr ToJSON()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+        #region Reporting
+
+        public override void report(int sh)
+        {
+            string r = commonAttrs() + shift(sh) + "FORMAL NON-TYPE " + name.identifier;
+            System.Console.WriteLine(r);
+
+            type.report(sh + constant);
+        }
 
         #endregion
     }
