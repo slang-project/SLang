@@ -44,7 +44,6 @@ namespace SLang.Service
                 "{{{0}" +
                 "{1}\"type\":{2},{0}" +
                 "{1}\"value\":{3},{0}" +
-                "{1}\"num_children\":{4},{0}" +
                 "{1}\"children\":[" +
                   (children.Count() > 0 ? "{0}{1}{1}{4}{0}{1}" : "") +
                   "]{0}" +
