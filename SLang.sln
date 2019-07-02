@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SLang", "SLang\SLang.csproj", "{E690B8CA-6137-4B11-84A5-00A3AB1EB149}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SLang Tester", "Slang Tester\SLang Tester.csproj", "{A5677701-B089-4F42-B659-29D3E8ACE7C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SLang Tester", "SLang Tester\SLang Tester.csproj", "{A5677701-B089-4F42-B659-29D3E8ACE7C5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SLang Compiler", "SLang Compiler\SLang Compiler.csproj", "{FF56032B-99F8-4CEE-ACBF-84BA81AD726E}"
 EndProject
