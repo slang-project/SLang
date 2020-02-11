@@ -82,8 +82,7 @@ namespace SLangCompiler
 
             if ( options.optDumpJSON )
             {
-                JsonIr json = compilation.ToJSON();
-                System.IO.File.WriteAllText(fileName + ".json", json.Serialize(false));
+                compilation.ToJSON().WriteToFile(fileName + ".json");
             }
 
             if ( !options.optGenerate ) goto Finish;

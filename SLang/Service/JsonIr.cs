@@ -38,6 +38,12 @@ namespace SLang.Service
             return this;
         }
 
+        public void WriteToFile(string file_name)
+        {
+            using var sw = new System.IO.StreamWriter(file_name + ".json");
+            sw.Write(Serialize(false));
+        }
+
         public virtual string Serialize(bool indentation)
         {
             return String.Format(
